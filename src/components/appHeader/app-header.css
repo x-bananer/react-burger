@@ -1,0 +1,36 @@
+.app-header {
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.app-header__nav {
+    display: flex;
+}
+
+.app-header__side {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.app-header__logo {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.app-header__button.button.button_type_secondary,
+.app-header__button.button.button_type_secondary:hover {
+    display: flex;
+    align-items: center;
+    color: var(--text-inactive-color);
+}
+
+.app-header__button.button.button_type_secondary.app-header__button--active {
+    color: var(--text-primary-color);
+}
+
+.app-header__button.button.button_type_secondary.app-header__button--active svg {
+    fill: var(--text-primary-color);
+}
