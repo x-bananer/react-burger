@@ -7,9 +7,8 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useEffect, useRef } from 'react';
 
-const BurgerIngredients = ({ className, ingredients }) => {
+const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSelectIngredient }) => {
     const [activeTab, setActiveTab] = useState('Булки');
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
 
     const sectionsRef = useRef({ Булки: null, Соусы: null, Начинки: null });
 
@@ -56,21 +55,7 @@ const BurgerIngredients = ({ className, ingredients }) => {
     };
 
     const handleCardClick = (ingredient) => {
-        if (ingredient.type === 'bun') {
-            const selectedBun = selectedIngredients.find(item => item.type === 'bun');
-
-            if (selectedBun) {
-                if (selectedBun._id === ingredient._id) return;
-
-                setSelectedIngredients(prev =>
-                    [...prev.filter(item => item.type !== 'bun'), ingredient]
-                );
-            } else {
-                setSelectedIngredients(prev => [...prev, ingredient]);
-            }
-        } else {
-            setSelectedIngredients(prev => [...prev, ingredient]);
-        }
+        onSelectIngredient(ingredient);
     };
 
     return (

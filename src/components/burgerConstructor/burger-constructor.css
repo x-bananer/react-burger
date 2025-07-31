@@ -1,0 +1,50 @@
+.burger-constructor {
+    display: flex;
+    flex-direction: column;
+}
+
+.burger-constructor__item {
+    flex-grow:  unset;
+}
+
+.burger-constructor__scroll-wrap {
+    overflow: hidden;
+    height: calc(max(fit-content, calc(100dvh - 574px)));
+    overflow: hidden;
+}
+
+.burger-constructor__scroll {
+    overflow: auto;
+    height: 100%;
+    padding-inline: 16px;
+}
+
+.burger-constructor__scroll-wrap {
+    max-height: calc(100dvh - 574px);
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.burger-constructor__scroll {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.burger-constructor__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
+.burger-constructor__footer svg {
+    width: 36px;
+    height: 36px;
+}
+
+.burger-constructor__item--offset {
+    margin-left: 48px;
+    margin-right: 16px;
+}
