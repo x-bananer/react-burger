@@ -1,0 +1,53 @@
+.burger-ingredients__title {
+
+}
+
+.burger-ingredients__tabs {
+    display: flex;
+    justify-items: stretch;
+}
+
+.burger-ingredients__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 24px;
+    grid-row-gap: 32px;
+    padding-inline: 16px;
+}
+
+.burger-ingredients__card-image-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 16px;
+}
+
+.burger-ingredients__card-image {
+    height: 120px;
+    object-fit: contain;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.burger-ingredients__title {
+    min-height: 48px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.burger-ingredients__sup-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.burger-ingredients__scroll-wrap {
+    overflow: hidden;
+    height: calc(100dvh - 290px);
+}
+
+.burger-ingredients__scroll {
+    overflow: auto;
+    height: 100%;
+}
+
