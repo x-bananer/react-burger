@@ -8,7 +8,7 @@ import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 const AppHeader = () => {
     return (
-        <header className="app-header p-4">
+        <header className="app-header pt-4 pb-4">
             <nav className="app-header__nav">
                 <Button htmlType="button" type="secondary" size="medium" extraClass="app-header__button app-header__button--active pl-5 pr-5 mr-2">
                     <BurgerIcon className="pr-2" type="secondary" />

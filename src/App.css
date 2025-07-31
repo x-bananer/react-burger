@@ -1,7 +1,26 @@
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 .app {
     width: 100%;
 	min-width: 320px;
 	max-width: 1280px;
 	padding: 0 20px;
 	margin: 0 auto;
+	min-height: 100dvh;
+}
+
+.app__content {
+	display: flex;
+	padding: 0 20px;
+	gap: 40px;
+}
+
+.app__content-item {
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 100%;
 }
