@@ -15,6 +15,16 @@
     padding-inline: 16px;
 }
 
+.burger-ingredients__card {
+    position: relative;
+    cursor: pointer;
+    transition: scale 0.3s ease;
+}
+
+.burger-ingredients__card:hover{
+    scale: 1.1;
+}
+
 .burger-ingredients__card-image-wrap {
     display: flex;
     justify-content: center;
