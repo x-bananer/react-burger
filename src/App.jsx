@@ -1,4 +1,4 @@
-import ingredients from './data/ingredients';
+import ingredients from './utils/data.js';
 import './app.css';
 
 import { useState } from 'react';
