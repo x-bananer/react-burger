@@ -1,5 +1,15 @@
 # React + TypeScript + Vite
 
+## Требования
+
+- Node.js 20.19.2
+- npm 10.8.2
+
+Если используете `nvm`, просто выполните:
+
+```bash
+nvm use
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
