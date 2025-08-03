@@ -1,4 +1,4 @@
-import './burger-constructor.css';
+import styles from './burger-constructor.module.css';
 
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,10 +13,10 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
     const total = selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
 
     return (
-        <div className={`burger-constructor ${className}`}>
+        <div className={`${styles['burger-constructor']} ${className}`}>
             {bun && (
                 <ConstructorElement
-                    extraClass="mb-4 burger-constructor__item burger-constructor__item--offset"
+                    extraClass={`mb-4 ${styles['burger-constructor__item']} ${styles['burger-constructor__item--offset']}`}
                     type="top"
                     isLocked={true}
                     text={`${bun.name} (верх)`}
@@ -25,13 +25,13 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
                 />
             )}
 
-            <div className="burger-constructor__scroll-wrap">
-                <div className="burger-constructor__scroll">
+            <div className={styles['burger-constructor__scroll-wrap']}>
+                <div className={styles['burger-constructor__scroll']}>
                     {fillings.map(({ item, index }, innerIndex) => (
-                        <div key={innerIndex}>
+                        <div key={`${item._id}_${index}`}>
                             <DragIcon type="primary" className="mr-2" />
                             <ConstructorElement
-                                extraClass={`burger-constructor__item ${innerIndex < fillings.length - 1 ? 'mb-4' : ''}`}
+                                extraClass={`${styles['burger-constructor__item']} ${innerIndex < fillings.length - 1 ? 'mb-4' : ''}`}
                                 text={item.name}
                                 price={item.price}
                                 thumbnail={item.image}
@@ -44,7 +44,7 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
 
             {bun && (
                 <ConstructorElement
-                    extraClass="burger-constructor__item mt-4 burger-constructor__item--offset"
+                    extraClass={`${styles['burger-constructor__item']} mt-4 ${styles['burger-constructor__item--offset']}`}
                     type="bottom"
                     isLocked={true}
                     text={`${bun.name} (низ)`}
@@ -54,7 +54,7 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
             )}
             {
                 total > 0 &&
-                <div className="burger-constructor__footer mt-10">
+                <div className={`${styles['burger-constructor__footer']} mt-10`}>
                     <span className="text text_type_main-large mr-4">
                         {total}
                     </span>

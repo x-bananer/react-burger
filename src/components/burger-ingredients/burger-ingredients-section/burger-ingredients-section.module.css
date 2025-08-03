@@ -12,7 +12,7 @@
     transition: scale 0.3s ease;
 }
 
-.burger-ingredients-section__card:hover{
+.burger-ingredients-section__card:hover {
     scale: 1.1;
 }
 

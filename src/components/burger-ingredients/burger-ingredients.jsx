@@ -1,8 +1,8 @@
-import './burger-ingredients.css';
+import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import BurgerIngredientsSection from './burgerIngredientsSection/BurgerIngredientsSection';
+import BurgerIngredientsSection from './burger-ingredients-section/burger-ingredients-section.jsx';
 
 import { useState } from 'react';
 import { useEffect, useRef } from 'react';
@@ -31,7 +31,7 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
                 });
             },
             {
-                root: document.querySelector('.burger-ingredients__scroll'),
+                root: document.querySelector('#burger-ingredients-scroll-container'),
                 rootMargin: '-0% 0px -85% 0px',
                 threshold: 0
             }
@@ -59,7 +59,7 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
             <h1 className="text text_type_main-large">
                 Соберите бургер
             </h1>
-            <div className="burger-ingredients__tabs mt-5">
+            <div className={`${styles['burger-ingredients__tabs']} mt-5`}>
                 <Tab value="Булки" active={activeTab === 'Булки'} onClick={handleTabClick}>
                     Булки
                 </Tab>
@@ -70,8 +70,8 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
                     Начинки
                 </Tab>
             </div>
-            <div className="burger-ingredients__scroll-wrap">
-                <div className="burger-ingredients__scroll">
+            <div className={styles['burger-ingredients__scroll-wrap']}>
+                <div id="burger-ingredients-scroll-container" className={styles['burger-ingredients__scroll']}>
                     <div ref={el => sectionsRef.current['Булки'] = el}>
                         <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} selectedIngredients={selectedIngredients} onIngredientClick={handleIngredientClick} />
                     </div>
@@ -80,7 +80,7 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
                     </div>
                     <div ref={el => sectionsRef.current['Начинки'] = el}>
                         <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} selectedIngredients={selectedIngredients} onIngredientClick={handleIngredientClick} />
-                    </div>ч
+                    </div>
                 </div>
             </div>
         </div>
