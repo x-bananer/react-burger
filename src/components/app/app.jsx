@@ -1,11 +1,12 @@
-import ingredients from './utils/data.js';
-import './app.css';
+import ingredients from '../../utils/data.js';
+
+import styles from './app.module.css';
+
+import AppHeader from '../app-header/app-header.jsx';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 
 import { useState } from 'react';
-
-import AppHeader from './components/appHeader/AppHeader.jsx';
-import BurgerIngredients from './components/burgerIngredients/BurgerIngredients.jsx';
-import BurgerConstructor from './components/burgerConstructor/BurgerConstructor.jsx';
 
 function App() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
@@ -35,11 +36,11 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className={styles.app}>
       <AppHeader />
-      <main className="app__content mt-10 mb-15">
-        <BurgerIngredients className="app__content-item" ingredients={ingredients} selectedIngredients={selectedIngredients} onSelectIngredient={handleSelectIngredient} />
-        <BurgerConstructor className="app__content-item mt-15" selectedIngredients={selectedIngredients} onDeleteIngredient={handleDeleteIngredient} />
+      <main className={`${styles['app__content']} mt-10 mb-15`}>
+        <BurgerIngredients className={styles['app__content-item']} ingredients={ingredients} selectedIngredients={selectedIngredients} onSelectIngredient={handleSelectIngredient} />
+        <BurgerConstructor className={`${styles['app__content-item']} mt-15`} selectedIngredients={selectedIngredients} onDeleteIngredient={handleDeleteIngredient} />
       </main>
     </div>
   )

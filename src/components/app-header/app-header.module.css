@@ -20,17 +20,16 @@
 	transform: translateX(-50%);
 }
 
-.app-header__button.button.button_type_secondary,
-.app-header__button.button.button_type_secondary:hover {
+.app-header__button {
     display: flex;
     align-items: center;
-    color: var(--text-inactive-color);
+    color: var(--text-inactive-color) !important;
 }
 
-.app-header__button.button.button_type_secondary.app-header__button--active {
-    color: var(--text-primary-color);
+.app-header__button--active {
+    color: var(--text-primary-color) !important;
 }
 
-.app-header__button.button.button_type_secondary.app-header__button--active svg {
+.app-header__button--active svg {
     fill: var(--text-primary-color);
 }
