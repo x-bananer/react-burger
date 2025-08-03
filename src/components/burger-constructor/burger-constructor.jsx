@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import styles from './burger-constructor.module.css';
 
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -69,3 +71,16 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
 };
 
 export default BurgerConstructor;
+
+const ingredientType = PropTypes.shape({
+	_id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	price: PropTypes.number.isRequired,
+	image: PropTypes.string.isRequired,
+});
+
+BurgerConstructor.propTypes = {
+	className: PropTypes.string,
+	selectedIngredients: PropTypes.arrayOf(ingredientType).isRequired,
+	onDeleteIngredient: PropTypes.func.isRequired,
+};

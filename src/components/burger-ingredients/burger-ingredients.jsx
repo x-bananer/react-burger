@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -88,3 +90,22 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
 };
 
 export default BurgerIngredients;
+
+const ingredientType = PropTypes.shape({
+	_id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired,
+	price: PropTypes.number.isRequired,
+	image: PropTypes.string.isRequired,
+});
+
+const selectedIngredientType = PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+});
+
+BurgerIngredients.propTypes = {
+	className: PropTypes.string,
+	ingredients: PropTypes.arrayOf(ingredientType).isRequired,
+	selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
+	onSelectIngredient: PropTypes.func.isRequired,
+};
