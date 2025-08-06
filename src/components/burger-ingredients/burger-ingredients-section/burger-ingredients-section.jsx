@@ -39,20 +39,20 @@ const BurgerIngredientsSection = ({ extraClass, title, ingredients, selectedIngr
 export default BurgerIngredientsSection;
 
 const ingredientType = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
 });
 
 const selectedIngredientType = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
 });
 
 BurgerIngredientsSection.propTypes = {
-	extraClass: PropTypes.string,
-	title: PropTypes.string.isRequired,
-	ingredients: PropTypes.arrayOf(ingredientType).isRequired,
-	selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
-	onIngredientClick: PropTypes.func.isRequired,
+    extraClass: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    ingredients: PropTypes.arrayOf(ingredientType).isRequired,
+    selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
+    onIngredientClick: PropTypes.func.isRequired,
 };

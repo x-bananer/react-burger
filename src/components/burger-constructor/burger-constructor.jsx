@@ -73,14 +73,14 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
 export default BurgerConstructor;
 
 const ingredientType = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
 });
 
 BurgerConstructor.propTypes = {
-	className: PropTypes.string,
-	selectedIngredients: PropTypes.arrayOf(ingredientType).isRequired,
-	onDeleteIngredient: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    selectedIngredients: PropTypes.arrayOf(ingredientType).isRequired,
+    onDeleteIngredient: PropTypes.func.isRequired,
 };

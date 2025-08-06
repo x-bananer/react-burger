@@ -1,5 +1,5 @@
 .app-header {
-	display: flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
@@ -15,9 +15,9 @@
 }
 
 .app-header__logo {
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .app-header__button {

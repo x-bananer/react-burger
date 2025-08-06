@@ -92,11 +92,11 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
 export default BurgerIngredients;
 
 const ingredientType = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
 });
 
 const selectedIngredientType = PropTypes.shape({
@@ -104,8 +104,8 @@ const selectedIngredientType = PropTypes.shape({
 });
 
 BurgerIngredients.propTypes = {
-	className: PropTypes.string,
-	ingredients: PropTypes.arrayOf(ingredientType).isRequired,
-	selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
-	onSelectIngredient: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    ingredients: PropTypes.arrayOf(ingredientType).isRequired,
+    selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
+    onSelectIngredient: PropTypes.func.isRequired,
 };
