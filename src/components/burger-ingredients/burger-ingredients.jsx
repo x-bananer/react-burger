@@ -8,7 +8,7 @@ import BurgerIngredientsSection from './burger-ingredients-section/burger-ingred
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 
-const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSelectIngredient }) => {
+const BurgerIngredients = ({ className, ingredients, selectedIngredients, onClickIngredient }) => {
     const [activeTab, setActiveTab] = useState('Булки');
 
     const sectionsRef = useRef({ Булки: null, Соусы: null, Начинки: null });
@@ -54,8 +54,9 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
     };
 
     const handleIngredientClick = (ingredient) => {
-        onSelectIngredient(ingredient);
-        // onClickIngredient(ingredient);
+        // TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
+        // onSelectIngredient(ingredient);
+        onClickIngredient(ingredient);
     };
 
     return (
@@ -109,5 +110,6 @@ BurgerIngredients.propTypes = {
     className: PropTypes.string,
     ingredients: PropTypes.arrayOf(ingredientType).isRequired,
     selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
-    onSelectIngredient: PropTypes.func.isRequired,
+    // TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
+    // onSelectIngredient: PropTypes.func.isRequired,
 };

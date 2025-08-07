@@ -7,41 +7,49 @@ import ErrorBoundary from '../error/error-boundary.jsx';
 import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
+import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
+import OrderDetails from '../order-details/order-details.jsx';
 
 import { useState, useEffect } from 'react';
 
 function App() {
 	const API_BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
-	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [ingredients, setIngredients] = useState([]);
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-	const handleOpenModal = () => {
-		setIsModalVisible(true);
-	}
+	const [modal, setModal] = useState(null);
+
+	const handleClickIngredient = (ingredient) => {
+		setModal({ type: 'ingredient', data: ingredient });
+	};
+
+	const handleClickOrder = (orderData) => {
+		setModal({ type: 'order', data: orderData });
+	};
 
 	const handleCloseModal = () => {
-		setIsModalVisible(false);
-	}
-
-	const handleSelectIngredient = (ingredient) => {
-		setSelectedIngredients(prev => {
-			const isBun = ingredient.type === 'bun';
-
-			const updated = isBun
-				? [...prev.filter(i => i.type !== 'bun')]
-				: [...prev];
-
-			const alreadySelectedBun = isBun && prev.find(i => i.type === 'bun')?._id === ingredient._id;
-
-			if (alreadySelectedBun) {
-				return prev;
-			} else {
-				return [...updated, { ...ingredient, uid: uuidv4() }];
-			}
-		});
+		setModal(null);
 	};
+
+	// TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
+	// const handleSelectIngredient = (ingredient) => {
+	// 	setSelectedIngredients(prev => {
+	// 		const isBun = ingredient.type === 'bun';
+
+	// 		const updated = isBun
+	// 			? [...prev.filter(i => i.type !== 'bun')]
+	// 			: [...prev];
+
+	// 		const alreadySelectedBun = isBun && prev.find(i => i.type === 'bun')?._id === ingredient._id;
+
+	// 		if (alreadySelectedBun) {
+	// 			return prev;
+	// 		} else {
+	// 			return [...updated, { ...ingredient, uid: uuidv4() }];
+	// 		}
+	// 	});
+	// };
 
 	const handleDeleteIngredient = (ingredientUid) => {
 		setSelectedIngredients(prev =>
@@ -60,6 +68,15 @@ function App() {
 
 				const data = await res.json();
 				setIngredients(data.data);
+
+				// TODO Временно вручную добавленные выбранные игредиенты
+				const bun = data.data.find(item => item.type === 'bun');
+				const other = data.data.filter(item => item.type !== 'bun');
+				const selectedIngredientsWithUid = [
+					...(bun ? [{ ...bun, uid: uuidv4() }] : []),
+					...other.map(item => ({ ...item, uid: uuidv4() }))
+				];
+				setSelectedIngredients(selectedIngredientsWithUid);
 			} catch (err) {
 				console.error('Ошибка при получении ингредиентов:', err);
 				alert(`Ошибка при получении ингредиентов: ${err}`)
@@ -73,15 +90,28 @@ function App() {
 		<div className={styles.app}>
 			<ErrorBoundary>
 				<AppHeader />
-				<main className={`${styles['app__content']} mt-10 mb-15`}>
-					<BurgerIngredients className={styles['app__content-item']} ingredients={ingredients} selectedIngredients={selectedIngredients} onSelectIngredient={handleSelectIngredient} />
-					<BurgerConstructor className={`${styles['app__content-item']} mt-15`} selectedIngredients={selectedIngredients} onDeleteIngredient={handleDeleteIngredient} />
+				<main className={`${styles['app__content']} mt-10 mb-10`}>
+					<BurgerIngredients
+						className={styles['app__content-item']}
+						ingredients={ingredients}
+						selectedIngredients={selectedIngredients}
+						onClickIngredient={handleClickIngredient}
+					/>
+					<BurgerConstructor
+						className={`${styles['app__content-item']} mt-15`}
+						selectedIngredients={selectedIngredients}
+						onDeleteIngredient={handleDeleteIngredient}
+						onClickOrder={handleClickOrder}
+					/>
 				</main>
-
-				<button onClick={handleOpenModal}>Открыть модальное окно</button>
-				{isModalVisible &&
-					<Modal title="Детали ингредиента" onClose={handleCloseModal}>
-						<p>Спасибо за внимание!</p>
+				{modal &&
+					<Modal onClose={handleCloseModal}>
+						{modal.type === 'ingredient' &&
+							<IngredientDetails ingredient={modal.data} />
+						}
+						{modal.type === 'order' &&
+							<OrderDetails order={modal.data} />
+						}
 					</Modal>
 				}
 			</ErrorBoundary>

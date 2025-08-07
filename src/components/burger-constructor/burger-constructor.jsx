@@ -7,7 +7,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient }) => {
+const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient, onClickOrder }) => {
     const bun = selectedIngredients.find(item => item.type === 'bun');
     const fillings = selectedIngredients.filter(ingredient => ingredient.type !== 'bun');
     const total = selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
@@ -61,7 +61,7 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
                         {total}
                     </span>
                     <CurrencyIcon type="primary" />
-                    <Button extraClass="ml-10" htmlType="button" type="primary" size="large">
+                    <Button extraClass="ml-10" htmlType="button" type="primary" size="large" onClick={onClickOrder}>
                         Оформить заказ
                     </Button>
                 </div>
