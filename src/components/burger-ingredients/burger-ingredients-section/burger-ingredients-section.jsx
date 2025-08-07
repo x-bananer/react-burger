@@ -5,10 +5,19 @@ import styles from './burger-ingredients-section.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useMemo } from 'react';
+
 const BurgerIngredientsSection = ({ extraClass, title, ingredients, selectedIngredients, onIngredientClick }) => {
-    const getIngredientCount = (ingredient) => {
-        return selectedIngredients.filter(item => item._id === ingredient._id).length;
-    };
+    const counts = useMemo(() => {
+        const map = new Map();
+        selectedIngredients.forEach(item => {
+            const currentCount = map.get(item._id) || 0;
+            map.set(item._id, currentCount + 1);
+        });
+        return map;
+    }, [selectedIngredients]);
+
+    const getIngredientCount = (ingredient) => counts.get(ingredient._id) || 0;
 
     return (
         <section className={`${styles['burger-ingredients-section']} ${extraClass}`}>

@@ -1,0 +1,16 @@
+.modal-header {
+    display: flex;
+    align-items: center;
+}
+
+.modal-header__title {
+
+}
+
+.modal-header__button {
+    margin-left: auto;
+    padding: 0 !important;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+}

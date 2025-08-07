@@ -9,14 +9,12 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient }) => {
     const bun = selectedIngredients.find(item => item.type === 'bun');
-    const fillings = selectedIngredients
-        .map((item, index) => ({ item, index }))
-        .filter(({ item }) => item.type !== 'bun');
+    const fillings = selectedIngredients.filter(ingredient => ingredient.type !== 'bun');
     const total = selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
 
     return (
         <div className={`${styles['burger-constructor']} ${className}`}>
-            {bun && (
+            {bun &&
                 <ConstructorElement
                     extraClass={`mb-4 ${styles['burger-constructor__item']} ${styles['burger-constructor__item--offset']}`}
                     type="top"
@@ -25,26 +23,28 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
                     price={bun.price}
                     thumbnail={bun.image}
                 />
-            )}
+            }
 
-            <div className={styles['burger-constructor__scroll-wrap']}>
-                <div className={styles['burger-constructor__scroll']}>
-                    {fillings.map(({ item, index }, innerIndex) => (
-                        <div key={`${item._id}_${index}`}>
-                            <DragIcon type="primary" className="mr-2" />
-                            <ConstructorElement
-                                extraClass={`${styles['burger-constructor__item']} ${innerIndex < fillings.length - 1 ? 'mb-4' : ''}`}
-                                text={item.name}
-                                price={item.price}
-                                thumbnail={item.image}
-                                handleClose={() => onDeleteIngredient(index)}
-                            />
-                        </div>
-                    ))}
+            {fillings.length > 0 &&
+                <div className={styles['burger-constructor__scroll-wrap']}>
+                    <div className={styles['burger-constructor__scroll']}>
+                        {fillings.map((ingredient, index) => (
+                            <div key={ingredient.uid}>
+                                <DragIcon type="primary" className="mr-2" />
+                                <ConstructorElement
+                                    extraClass={`${styles['burger-constructor__item']} ${index < fillings.length - 1 ? 'mb-4' : ''}`}
+                                    text={ingredient.name}
+                                    price={ingredient.price}
+                                    thumbnail={ingredient.image}
+                                    handleClose={() => onDeleteIngredient(ingredient.uid)}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            }
 
-            {bun && (
+            {bun &&
                 <ConstructorElement
                     extraClass={`${styles['burger-constructor__item']} mt-4 ${styles['burger-constructor__item--offset']}`}
                     type="bottom"
@@ -53,9 +53,9 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
                     price={bun.price}
                     thumbnail={bun.image}
                 />
-            )}
-            {
-                total > 0 &&
+            }
+
+            {total > 0 &&
                 <div className={`${styles['burger-constructor__footer']} mt-10`}>
                     <span className="text text_type_main-large mr-4">
                         {total}

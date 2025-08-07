@@ -1,0 +1,21 @@
+.modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    max-width: 720px;
+    width: 100%;
+    background: var(--background-alt);
+    color: var(--text-primary-color);
+    overflow: hidden;
+    border: 2px solid #4C4CFF33;
+    border-radius: 40px;
+    z-index: 2000;
+    transform: translate(-50%, -50%);
+}
+
+.modal__container {
+    max-height: calc(100dvh - 200px);
+    height: 100%;
+    overflow: auto;
+    padding: 40px 40px 60px;
+}

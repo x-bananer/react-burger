@@ -1,5 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import styles from './app.module.css';
 
+import Modal from '../modal/modal.jsx';
 import ErrorBoundary from '../error/error-boundary.jsx';
 import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -12,28 +15,37 @@ function App() {
 
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [ingredients, setIngredients] = useState([]);
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	const handleOpenModal = () => {
+		setIsModalVisible(true);
+	}
+
+	const handleCloseModal = () => {
+		setIsModalVisible(false);
+	}
 
 	const handleSelectIngredient = (ingredient) => {
-		if (ingredient.type === 'bun') {
-			const selectedBun = selectedIngredients.find(item => item.type === 'bun');
+		setSelectedIngredients(prev => {
+			const isBun = ingredient.type === 'bun';
 
-			if (selectedBun) {
-				if (selectedBun._id === ingredient._id) return;
+			const updated = isBun
+				? [...prev.filter(i => i.type !== 'bun')]
+				: [...prev];
 
-				setSelectedIngredients(prev =>
-					[...prev.filter(item => item.type !== 'bun'), ingredient]
-				);
+			const alreadySelectedBun = isBun && prev.find(i => i.type === 'bun')?._id === ingredient._id;
+
+			if (alreadySelectedBun) {
+				return prev;
 			} else {
-				setSelectedIngredients(prev => [...prev, ingredient]);
+				return [...updated, { ...ingredient, uid: uuidv4() }];
 			}
-		} else {
-			setSelectedIngredients(prev => [...prev, ingredient]);
-		}
+		});
 	};
 
-	const handleDeleteIngredient = (indexToRemove) => {
+	const handleDeleteIngredient = (ingredientUid) => {
 		setSelectedIngredients(prev =>
-			prev.filter((_, i) => i !== indexToRemove)
+			prev.filter(ingredient => ingredient.uid !== ingredientUid)
 		);
 	};
 
@@ -65,6 +77,13 @@ function App() {
 					<BurgerIngredients className={styles['app__content-item']} ingredients={ingredients} selectedIngredients={selectedIngredients} onSelectIngredient={handleSelectIngredient} />
 					<BurgerConstructor className={`${styles['app__content-item']} mt-15`} selectedIngredients={selectedIngredients} onDeleteIngredient={handleDeleteIngredient} />
 				</main>
+
+				<button onClick={handleOpenModal}>Открыть модальное окно</button>
+				{isModalVisible &&
+					<Modal title="Детали ингредиента" onClose={handleCloseModal}>
+						<p>Спасибо за внимание!</p>
+					</Modal>
+				}
 			</ErrorBoundary>
 		</div>
 	)

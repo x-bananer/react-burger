@@ -6,17 +6,16 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerIngredientsSection from './burger-ingredients-section/burger-ingredients-section.jsx';
 
-import { useState } from 'react';
-import { useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 
 const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSelectIngredient }) => {
     const [activeTab, setActiveTab] = useState('Булки');
 
     const sectionsRef = useRef({ Булки: null, Соусы: null, Начинки: null });
 
-    const buns = ingredients.filter(ingredient => ingredient.type === 'bun');
-    const sauces = ingredients.filter(ingredient => ingredient.type === 'sauce');
-    const maines = ingredients.filter(ingredient => ingredient.type === 'main');
+    const buns = useMemo(() => ingredients.filter(i => i.type === 'bun'), [ingredients]);
+    const sauces = useMemo(() => ingredients.filter(i => i.type === 'sauce'), [ingredients]);
+    const maines = useMemo(() => ingredients.filter(i => i.type === 'main'), [ingredients]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -43,7 +42,9 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
             if (section) observer.observe(section);
         });
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect()
+        };
     }, []);
 
     const handleTabClick = (tab) => {
@@ -54,6 +55,7 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onSele
 
     const handleIngredientClick = (ingredient) => {
         onSelectIngredient(ingredient);
+        // onClickIngredient(ingredient);
     };
 
     return (
