@@ -8,55 +8,69 @@ import BurgerIngredientsSection from './burger-ingredients-section/burger-ingred
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 
-const BurgerIngredients = ({ className, ingredients, selectedIngredients, onClickIngredient }) => {
+const BurgerIngredients = ({ className, ingredients, selectedIngredients }) => {
     const [activeTab, setActiveTab] = useState('Булки');
 
     const sectionsRef = useRef({ Булки: null, Соусы: null, Начинки: null });
+    const isProgrammaticScroll = useRef(false);
 
     const buns = useMemo(() => ingredients.filter(i => i.type === 'bun'), [ingredients]);
     const sauces = useMemo(() => ingredients.filter(i => i.type === 'sauce'), [ingredients]);
     const maines = useMemo(() => ingredients.filter(i => i.type === 'main'), [ingredients]);
 
     useEffect(() => {
+        const rootEl = document.querySelector('#burger-ingredients-scroll-container');
+
         const observer = new IntersectionObserver(
-            entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const section = Object.entries(sectionsRef.current).find(
-                            ([_, el]) => el === entry.target
-                        );
-                        if (section) {
-                            setActiveTab(section[0]);
-                        }
-                    }
-                });
+            (entries) => {
+                if (!rootEl || isProgrammaticScroll.current) return;
+
+                const rootTop = rootEl.getBoundingClientRect().top;
+
+                const visible = entries.filter((e) => e.isIntersecting);
+                if (visible.length === 0) return;
+
+                const closest = visible
+                    .slice()
+                    .sort(
+                        (a, b) =>
+                            Math.abs(a.target.getBoundingClientRect().top - rootTop) -
+                            Math.abs(b.target.getBoundingClientRect().top - rootTop)
+                    )[0];
+
+                const section = Object.entries(sectionsRef.current).find(
+                    ([, el]) => el === closest.target
+                );
+                if (section) {
+                    setActiveTab(section[0]);
+                }
             },
             {
-                root: document.querySelector('#burger-ingredients-scroll-container'),
-                rootMargin: '-0% 0px -85% 0px',
-                threshold: 0
+                root: rootEl,
+                rootMargin: '0px 0px -85% 0px',
+                threshold: 0.01,
             }
         );
 
-        Object.values(sectionsRef.current).forEach(section => {
+        Object.values(sectionsRef.current).forEach((section) => {
             if (section) observer.observe(section);
         });
 
         return () => {
-            observer.disconnect()
+            observer.disconnect();
         };
     }, []);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         const section = sectionsRef.current[tab];
-        section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
+        if (!section) return;
+        isProgrammaticScroll.current = true;
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    const handleIngredientClick = (ingredient) => {
-        // TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
-        // onSelectIngredient(ingredient);
-        onClickIngredient(ingredient);
+        setTimeout(() => {
+            isProgrammaticScroll.current = false;
+        }, 400);
     };
 
     return (
@@ -78,13 +92,13 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients, onClic
             <div className={styles['burger-ingredients__scroll-wrap']}>
                 <div id="burger-ingredients-scroll-container" className={styles['burger-ingredients__scroll']}>
                     <div ref={el => sectionsRef.current['Булки'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} selectedIngredients={selectedIngredients} onIngredientClick={handleIngredientClick} />
+                        <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} selectedIngredients={selectedIngredients} />
                     </div>
                     <div ref={el => sectionsRef.current['Соусы'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Соусы" ingredients={sauces} selectedIngredients={selectedIngredients} onIngredientClick={handleIngredientClick} />
+                        <BurgerIngredientsSection extraClass="pt-10" title="Соусы" ingredients={sauces} selectedIngredients={selectedIngredients} />
                     </div>
                     <div ref={el => sectionsRef.current['Начинки'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} selectedIngredients={selectedIngredients} onIngredientClick={handleIngredientClick} />
+                        <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} selectedIngredients={selectedIngredients} />
                     </div>
                 </div>
             </div>
@@ -110,6 +124,4 @@ BurgerIngredients.propTypes = {
     className: PropTypes.string,
     ingredients: PropTypes.arrayOf(ingredientType).isRequired,
     selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
-    // TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
-    // onSelectIngredient: PropTypes.func.isRequired,
 };

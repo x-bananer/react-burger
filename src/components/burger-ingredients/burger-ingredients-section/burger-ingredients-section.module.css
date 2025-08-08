@@ -16,13 +16,6 @@
     scale: 1.1;
 }
 
-.burger-ingredients-section__card-image-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-inline: 16px;
-}
-
 .burger-ingredients-section__card-image {
     height: 120px;
     object-fit: contain;

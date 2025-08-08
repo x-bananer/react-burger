@@ -2,13 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 import styles from './app.module.css';
 
-import Modal from '../modal/modal.jsx';
 import ErrorBoundary from '../error/error-boundary.jsx';
 import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
-import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
-import OrderDetails from '../order-details/order-details.jsx';
 
 import { useState, useEffect } from 'react';
 
@@ -17,20 +14,6 @@ function App() {
 
 	const [ingredients, setIngredients] = useState([]);
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-	const [modal, setModal] = useState(null);
-
-	const handleClickIngredient = (ingredient) => {
-		setModal({ type: 'ingredient', data: ingredient });
-	};
-
-	const handleClickOrder = (orderData) => {
-		setModal({ type: 'order', data: orderData });
-	};
-
-	const handleCloseModal = () => {
-		setModal(null);
-	};
 
 	// TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
 	// const handleSelectIngredient = (ingredient) => {
@@ -95,25 +78,13 @@ function App() {
 						className={styles['app__content-item']}
 						ingredients={ingredients}
 						selectedIngredients={selectedIngredients}
-						onClickIngredient={handleClickIngredient}
 					/>
 					<BurgerConstructor
 						className={`${styles['app__content-item']} mt-15`}
 						selectedIngredients={selectedIngredients}
 						onDeleteIngredient={handleDeleteIngredient}
-						onClickOrder={handleClickOrder}
 					/>
 				</main>
-				{modal &&
-					<Modal onClose={handleCloseModal}>
-						{modal.type === 'ingredient' &&
-							<IngredientDetails ingredient={modal.data} />
-						}
-						{modal.type === 'order' &&
-							<OrderDetails order={modal.data} />
-						}
-					</Modal>
-				}
 			</ErrorBoundary>
 		</div>
 	)

@@ -1,3 +1,40 @@
 .ingredient-details {
-    
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredient-details__header {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.ingredient-details__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.ingredient-details__content-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.ingredient-details__content {
+    max-width: 520px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredient-details__image {
+    height: 240px;
+    object-fit: contain;
+    padding-left: 20px;
+    padding-right: 20px;
 }
