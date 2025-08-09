@@ -1,5 +1,5 @@
 {
-  "name": "react-burger",
+  "name": "stellar-burgers",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.28.2",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.14.2",
+    "core-js": "^3.44.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
@@ -26,5 +30,9 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4"
+  },
+  "engines": {
+    "node": "20.19.2",
+    "npm": "10.8.2"
   }
 }

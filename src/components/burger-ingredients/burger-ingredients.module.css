@@ -1,0 +1,14 @@
+.burger-ingredients__tabs {
+    display: flex;
+    justify-items: stretch;
+}
+
+.burger-ingredients__scroll-wrap {
+    overflow: hidden;
+    height: calc(100dvh - 290px);
+}
+
+.burger-ingredients__scroll {
+    overflow: auto;
+    height: 100%;
+}
