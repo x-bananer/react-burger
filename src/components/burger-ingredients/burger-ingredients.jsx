@@ -8,7 +8,13 @@ import BurgerIngredientsSection from './burger-ingredients-section/burger-ingred
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 
-const BurgerIngredients = ({ className, ingredients, selectedIngredients }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredients } from '../../services/actions/ingredients.js';
+
+const BurgerIngredients = ({ className }) => {
+    const dispatch = useDispatch();
+    const { items: ingredients, isLoading, isError } = useSelector(state => state.ingredients);
+
     const [activeTab, setActiveTab] = useState('Булки');
 
     const sectionsRef = useRef({ Булки: null, Соусы: null, Начинки: null });
@@ -61,6 +67,10 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients }) => {
         };
     }, []);
 
+    useEffect(() => {
+        dispatch(getIngredients());
+    }, []);
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         const section = sectionsRef.current[tab];
@@ -92,13 +102,13 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients }) => {
             <div className={styles['burger-ingredients__scroll-wrap']}>
                 <div id="burger-ingredients-scroll-container" className={styles['burger-ingredients__scroll']}>
                     <div ref={el => sectionsRef.current['Булки'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} selectedIngredients={selectedIngredients} />
+                        <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} />
                     </div>
                     <div ref={el => sectionsRef.current['Соусы'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Соусы" ingredients={sauces} selectedIngredients={selectedIngredients} />
+                        <BurgerIngredientsSection extraClass="pt-10" title="Соусы" ingredients={sauces} />
                     </div>
                     <div ref={el => sectionsRef.current['Начинки'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} selectedIngredients={selectedIngredients} />
+                        <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} />
                     </div>
                 </div>
             </div>
@@ -108,20 +118,6 @@ const BurgerIngredients = ({ className, ingredients, selectedIngredients }) => {
 
 export default BurgerIngredients;
 
-const ingredientType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-});
-
-const selectedIngredientType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-});
-
 BurgerIngredients.propTypes = {
     className: PropTypes.string,
-    ingredients: PropTypes.arrayOf(ingredientType).isRequired,
-    selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
 };

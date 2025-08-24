@@ -10,10 +10,10 @@ import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import { useState, useEffect } from 'react';
 
 function App() {
-	const API_BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
+	// const API_BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
-	const [ingredients, setIngredients] = useState([]);
-	const [selectedIngredients, setSelectedIngredients] = useState([]);
+	// const [ingredients, setIngredients] = useState([]);
+	// const [selectedIngredients, setSelectedIngredients] = useState([]);
 
 	// TODO Старый функционал добавления ингредиента в список выбранных ингредиентов
 	// const handleSelectIngredient = (ingredient) => {
@@ -34,40 +34,36 @@ function App() {
 	// 	});
 	// };
 
-	const handleDeleteIngredient = (ingredientUid) => {
-		setSelectedIngredients(prev =>
-			prev.filter(ingredient => ingredient.uid !== ingredientUid)
-		);
-	};
 
-	useEffect(() => {
-		const fetchIngredients = async () => {
-			try {
-				const res = await fetch(API_BASE_URL);
 
-				if (!res.ok) {
-					throw new Error(res);
-				}
+	// useEffect(() => {
+	// 	const fetchIngredients = async () => {
+	// 		try {
+	// 			const res = await fetch(API_BASE_URL);
 
-				const data = await res.json();
-				setIngredients(data.data);
+	// 			if (!res.ok) {
+	// 				throw new Error(res);
+	// 			}
 
-				// TODO Временно вручную добавленные выбранные игредиенты
-				const bun = data.data.find(item => item.type === 'bun');
-				const other = data.data.filter(item => item.type !== 'bun');
-				const selectedIngredientsWithUid = [
-					...(bun ? [{ ...bun, uid: uuidv4() }] : []),
-					...other.map(item => ({ ...item, uid: uuidv4() }))
-				];
-				setSelectedIngredients(selectedIngredientsWithUid);
-			} catch (err) {
-				console.error('Ошибка при получении ингредиентов:', err);
-				alert(`Ошибка при получении ингредиентов: ${err}`)
-			}
-		};
+	// 			const data = await res.json();
+	// 			setIngredients(data.data);
 
-		fetchIngredients();
-	}, []);
+	// 			// TODO Временно вручную добавленные выбранные игредиенты
+	// 			const bun = data.data.find(item => item.type === 'bun');
+	// 			const other = data.data.filter(item => item.type !== 'bun');
+	// 			const selectedIngredientsWithUid = [
+	// 				...(bun ? [{ ...bun, uid: uuidv4() }] : []),
+	// 				...other.map(item => ({ ...item, uid: uuidv4() }))
+	// 			];
+	// 			setSelectedIngredients(selectedIngredientsWithUid);
+	// 		} catch (err) {
+	// 			console.error('Ошибка при получении ингредиентов:', err);
+	// 			alert(`Ошибка при получении ингредиентов: ${err}`)
+	// 		}
+	// 	};
+
+	// 	fetchIngredients();
+	// }, []);
 
 	return (
 		<div className={styles.app}>
@@ -76,13 +72,9 @@ function App() {
 				<main className={`${styles['app__content']} mt-10 mb-10`}>
 					<BurgerIngredients
 						className={styles['app__content-item']}
-						ingredients={ingredients}
-						selectedIngredients={selectedIngredients}
 					/>
 					<BurgerConstructor
 						className={`${styles['app__content-item']} mt-15`}
-						selectedIngredients={selectedIngredients}
-						onDeleteIngredient={handleDeleteIngredient}
 					/>
 				</main>
 			</ErrorBoundary>

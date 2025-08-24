@@ -10,14 +10,28 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient }) => {
+const BurgerConstructor = ({ className }) => {
+    const dispatch = useDispatch();
+
+    const { items: selectedIngredients = [] } = useSelector(state => state.constructor);
+
     const bun = selectedIngredients.find(item => item.type === 'bun');
     const fillings = selectedIngredients.filter(ingredient => ingredient.type !== 'bun');
-    const total = selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
+    const total = useMemo(() => {
+        if (!bun) {
+            return fillings.reduce((sum, ingredient) => sum + ingredient.price, 0);
+        }
+        return bun.price * 2 + fillings.reduce((sum, ingredient) => sum + ingredient.price, 0);
+    }, [bun, fillings]);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const onDeleteIngredient = (uid) => {
+        dispatch(removeIngredient(uid));
+    };
 
     const handleClickOrder = () => {
         setIsModalVisible(true);
@@ -94,15 +108,6 @@ const BurgerConstructor = ({ className, selectedIngredients, onDeleteIngredient 
 
 export default BurgerConstructor;
 
-const ingredientType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-});
-
 BurgerConstructor.propTypes = {
     className: PropTypes.string,
-    selectedIngredients: PropTypes.arrayOf(ingredientType).isRequired,
-    onDeleteIngredient: PropTypes.func.isRequired,
 };

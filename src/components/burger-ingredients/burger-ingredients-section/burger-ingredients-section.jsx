@@ -9,8 +9,15 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addDetails, removeDetails } from '../../../services/actions/ingredient.js';
 
-const BurgerIngredientsSection = ({ extraClass, title, ingredients, selectedIngredients }) => {
+const BurgerIngredientsSection = ({ extraClass, title }) => {
+    const dispatch = useDispatch();
+
+    const { items: ingredients } = useSelector(state => state.ingredients);
+    const { items: selectedIngredients = [] } = useSelector(state => state.constructor);
+
     const counts = useMemo(() => {
         const map = new Map();
         selectedIngredients.forEach(item => {
@@ -22,15 +29,16 @@ const BurgerIngredientsSection = ({ extraClass, title, ingredients, selectedIngr
     const getIngredientCount = (ingredient) => counts.get(ingredient._id) || 0;
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedIngredient, setSelectedIngredient] = useState(null);
+    const {details: selectedIngredient} = useSelector(state => state.ingredient);
 
     const handleIngredientClick = (ingredient) => {
-        setSelectedIngredient(ingredient);
+        dispatch(addDetails(ingredient));
         setIsModalVisible(true);
     };
 
     const handleCloseModal = () => {
         setIsModalVisible(false);
+        dispatch(removeDetails());
     };
 
     return (
@@ -68,20 +76,7 @@ const BurgerIngredientsSection = ({ extraClass, title, ingredients, selectedIngr
 
 export default BurgerIngredientsSection;
 
-const ingredientType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-});
-
-const selectedIngredientType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-});
-
 BurgerIngredientsSection.propTypes = {
     extraClass: PropTypes.string,
     title: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(ingredientType).isRequired,
-    selectedIngredients: PropTypes.arrayOf(selectedIngredientType).isRequired,
 };
