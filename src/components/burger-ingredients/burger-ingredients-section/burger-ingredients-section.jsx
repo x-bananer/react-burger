@@ -4,19 +4,16 @@ import styles from './burger-ingredients-section.module.css';
 
 import Modal from '../../modal/modal.jsx';
 import IngredientDetails from '../../ingredient-details/ingredient-details.jsx';
-
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients-card.jsx';
 
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDetails, removeDetails } from '../../../services/actions/ingredient.js';
 
-const BurgerIngredientsSection = ({ extraClass, title }) => {
+const BurgerIngredientsSection = ({ extraClass, title, ingredients }) => {
     const dispatch = useDispatch();
 
-    const { items: ingredients } = useSelector(state => state.ingredients);
-    const { items: selectedIngredients = [] } = useSelector(state => state.constructor);
+    const { items: selectedIngredients = [] } = useSelector(state => state.burderConstructor);
 
     const counts = useMemo(() => {
         const map = new Map();
@@ -26,10 +23,16 @@ const BurgerIngredientsSection = ({ extraClass, title }) => {
         });
         return map;
     }, [selectedIngredients]);
-    const getIngredientCount = (ingredient) => counts.get(ingredient._id) || 0;
+
+    const getIngredientCount = (ingredient) => {
+        if (ingredient.type === 'bun' && counts.get(ingredient._id)) {
+            return 2;
+        }
+        return counts.get(ingredient._id) || 0;
+    };
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const {details: selectedIngredient} = useSelector(state => state.ingredient);
+    const { details: selectedIngredient } = useSelector(state => state.ingredient);
 
     const handleIngredientClick = (ingredient) => {
         dispatch(addDetails(ingredient));
@@ -49,19 +52,12 @@ const BurgerIngredientsSection = ({ extraClass, title }) => {
                 </h2>
                 <ul className={`${styles['burger-ingredients-section__grid']} mt-6`}>
                     {ingredients.map((ingredient, index) => (
-                        <li key={`${ingredient._id}_${index}`} className={styles['burger-ingredients-section__card']} onClick={() => handleIngredientClick(ingredient)}>
-                            {getIngredientCount(ingredient) > 0 &&
-                                <Counter count={getIngredientCount(ingredient)} size="default" extraClass="m-1" />
-                            }
-                            <img className={styles['burger-ingredients-section__card-image']} alt={ingredient.name} src={ingredient.image} />
-                            <p className={`${styles['burger-ingredients-section__sup-title']} text text_type_digits-default mt-1`}>
-                                <span className="mr-2">{ingredient.price}</span>
-                                <CurrencyIcon type="primary" />
-                            </p>
-                            <h3 className={`${styles['burger-ingredients-section__title']} text text_type_main-default mt-2`}>
-                                {ingredient.name}
-                            </h3>
-                        </li>
+                        <BurgerIngredientsCard
+                            key={`${ingredient._id}_${index}`}
+                            ingredient={ingredient}
+                            onClick={handleIngredientClick}
+                            count={getIngredientCount(ingredient)}
+                        />
                     ))}
                 </ul>
             </section>

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../actions/constructor.js';
+import { ADD_INGREDIENT, REMOVE_INGREDIENT, MOVE_INGREDIENT } from '../actions/constructor.js';
 
 const initialState = {
     items: []
@@ -32,6 +32,21 @@ export const constructorReducer = (state = initialState, action) => {
                 items: state.items.filter(ingredient => ingredient.uid !== action.payload)
             };
         }
+        case MOVE_INGREDIENT: {
+            const { dragIndex, hoverIndex } = action.payload;
+
+            const bun = state.items.find(i => i.type === 'bun');
+            const fillings = state.items.filter(i => i.type !== 'bun');
+
+            const updatedFillings = [...fillings];
+            const [removed] = updatedFillings.splice(dragIndex, 1);
+            updatedFillings.splice(hoverIndex, 0, removed);
+
+            return {
+                ...state,
+                items: bun ? [bun, ...updatedFillings] : updatedFillings
+            };
+            }
         default: {
             return state;
         }

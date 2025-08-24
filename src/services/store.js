@@ -8,7 +8,7 @@ import { ingredientsReducer } from './reducers/ingredientsReducer';
 import { orderReducer } from './reducers/orderReducer';
 
 const rootReducer = combineReducers({
-	constructor: constructorReducer,
+	burderConstructor: constructorReducer,
 	ingredient: ingredientReducer,
 	ingredients: ingredientsReducer,
 	order: orderReducer,

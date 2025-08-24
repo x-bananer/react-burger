@@ -8,18 +8,27 @@ import OrderDetails from '../order-details/order-details.jsx';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import BurderConstructorDragItem from './burger-constructor-drag-item/burger-constructor-drag-item.jsx';
 
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { addIngredient, removeIngredient } from '../../services/actions/constructor.js';
 
 const BurgerConstructor = ({ className }) => {
     const dispatch = useDispatch();
+    const [, dropRef] = useDrop({
+        accept: 'ingredient',
+        drop: (ingredient) => {
+            dispatch(addIngredient(ingredient));
+        }
+    });
 
-    const { items: selectedIngredients = [] } = useSelector(state => state.constructor);
+    const { items: selectedIngredients = [] } = useSelector(state => state.burderConstructor);
 
     const bun = selectedIngredients.find(item => item.type === 'bun');
     const fillings = selectedIngredients.filter(ingredient => ingredient.type !== 'bun');
+
     const total = useMemo(() => {
         if (!bun) {
             return fillings.reduce((sum, ingredient) => sum + ingredient.price, 0);
@@ -28,10 +37,6 @@ const BurgerConstructor = ({ className }) => {
     }, [bun, fillings]);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const onDeleteIngredient = (uid) => {
-        dispatch(removeIngredient(uid));
-    };
 
     const handleClickOrder = () => {
         setIsModalVisible(true);
@@ -43,7 +48,7 @@ const BurgerConstructor = ({ className }) => {
 
     return (
         <>
-            <div className={`${styles['burger-constructor']} ${className}`}>
+            <div ref={dropRef} className={`${styles['burger-constructor']} ${className}`}>
                 {bun &&
                     <ConstructorElement
                         extraClass={`mb-4 ${styles['burger-constructor__item']} ${styles['burger-constructor__item--offset']}`}
@@ -59,16 +64,13 @@ const BurgerConstructor = ({ className }) => {
                     <div className={styles['burger-constructor__scroll-wrap']}>
                         <div className={styles['burger-constructor__scroll']}>
                             {fillings.map((ingredient, index) => (
-                                <div key={ingredient.uid}>
-                                    <DragIcon type="primary" className="mr-2" />
-                                    <ConstructorElement
-                                        extraClass={`${styles['burger-constructor__item']} ${index < fillings.length - 1 ? 'mb-4' : ''}`}
-                                        text={ingredient.name}
-                                        price={ingredient.price}
-                                        thumbnail={ingredient.image}
-                                        handleClose={() => onDeleteIngredient(ingredient.uid)}
-                                    />
-                                </div>
+                                <BurderConstructorDragItem
+                                    key={ingredient.uid}
+                                    ingredient={ingredient}
+                                    index={index}
+                                    extraClass={`${styles['burger-constructor__item']} ${index < fillings.length - 1 ? 'mb-4' : ''}`}
+
+                                />
                             ))}
                         </div>
                     </div>
