@@ -1,3 +1,7 @@
+import PropTypes from 'prop-types';
+
+import styles from './burger-constructor-drag-item.module.css';
+
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -36,7 +40,7 @@ const BurgerConstructorDragItem = ({ extraClass, ingredient, index }) => {
     }
 
     return (
-        <div ref={ref} style={{ opacity: isDragging ? 0.3 : 1 }} >
+        <div ref={ref} style={{ opacity: isDragging ? 0.3 : 1 }} className={styles['burger-constructor-drag-item']}>
             <DragIcon type="primary" className="mr-2" />
             <ConstructorElement
                 extraClass={extraClass}
@@ -50,3 +54,16 @@ const BurgerConstructorDragItem = ({ extraClass, ingredient, index }) => {
 }
 
 export default BurgerConstructorDragItem;
+
+BurgerConstructorDragItem.propTypes = {
+    ingredient: PropTypes.shape({
+        uid: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired
+    }).isRequired,
+    index: PropTypes.number.isRequired,
+    extraClass: PropTypes.string
+};

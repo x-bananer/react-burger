@@ -1,9 +1,9 @@
-import styles from './burger-ingredients-card.module.css';
-
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import { useDrag } from 'react-dnd';
+import PropTypes from 'prop-types';
+
+import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import styles from './burger-ingredients-card.module.css';
 
 const BurgerIngredientsCard = ({ ingredient, onClick, count }) => {
     const [{ isDragging }, dragRef] = useDrag({
@@ -37,3 +37,19 @@ const BurgerIngredientsCard = ({ ingredient, onClick, count }) => {
 };
 
 export default BurgerIngredientsCard;
+
+BurgerIngredientsCard.propTypes = {
+    ingredient: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired
+    }).isRequired,
+    onClick: PropTypes.func.isRequired,
+    count: PropTypes.number
+};
+
+BurgerIngredientsCard.defaultProps = {
+    count: 0
+};

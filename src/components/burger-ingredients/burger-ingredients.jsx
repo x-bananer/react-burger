@@ -7,7 +7,6 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsSection from './burger-ingredients-section/burger-ingredients-section.jsx';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients.js';
 
@@ -88,30 +87,48 @@ const BurgerIngredients = ({ className }) => {
             <h1 className="text text_type_main-large">
                 Соберите бургер
             </h1>
-            <div className={`${styles['burger-ingredients__tabs']} mt-5`}>
-                <Tab value="Булки" active={activeTab === 'Булки'} onClick={handleTabClick}>
-                    Булки
-                </Tab>
-                <Tab value="Соусы" active={activeTab === 'Соусы'} onClick={handleTabClick}>
-                    Соусы
-                </Tab>
-                <Tab value="Начинки" active={activeTab === 'Начинки'} onClick={handleTabClick}>
-                    Начинки
-                </Tab>
-            </div>
-            <div className={styles['burger-ingredients__scroll-wrap']}>
-                <div id="burger-ingredients-scroll-container" className={styles['burger-ingredients__scroll']}>
-                    <div ref={el => sectionsRef.current['Булки'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} />
+
+            {isLoading && (
+                <p className="text text_type_main-default text_color_inactive mt-10">
+                    Загружаем ингредиенты...
+                </p>
+            )}
+
+            {isError && (
+                <p className="text text_type_main-default text_color_inactive mt-10">
+                    Ошибка загрузки ингредиентов, попробуйте перезагрузить страницу
+                </p>
+            )}
+
+            {!isLoading && !isError &&
+                (<>
+
+                    <div className={`${styles['burger-ingredients__tabs']} mt-5`}>
+                        <Tab value="Булки" active={activeTab === 'Булки'} onClick={handleTabClick}>
+                            Булки
+                        </Tab>
+                        <Tab value="Соусы" active={activeTab === 'Соусы'} onClick={handleTabClick}>
+                            Соусы
+                        </Tab>
+                        <Tab value="Начинки" active={activeTab === 'Начинки'} onClick={handleTabClick}>
+                            Начинки
+                        </Tab>
                     </div>
-                    <div ref={el => sectionsRef.current['Соусы'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Соусы" ingredients={sauces} />
+                    <div className={styles['burger-ingredients__scroll-wrap']}>
+                        <div id="burger-ingredients-scroll-container" className={styles['burger-ingredients__scroll']}>
+                            <div ref={el => sectionsRef.current['Булки'] = el}>
+                                <BurgerIngredientsSection extraClass="pt-10" title="Булки" ingredients={buns} />
+                            </div>
+                            <div ref={el => sectionsRef.current['Соусы'] = el}>
+                                <BurgerIngredientsSection extraClass="pt-10" title="Соусы" ingredients={sauces} />
+                            </div>
+                            <div ref={el => sectionsRef.current['Начинки'] = el}>
+                                <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} />
+                            </div>
+                        </div>
                     </div>
-                    <div ref={el => sectionsRef.current['Начинки'] = el}>
-                        <BurgerIngredientsSection extraClass="pt-10" title="Начинки" ingredients={maines} />
-                    </div>
-                </div>
-            </div>
+                </>)
+            }
         </div>
     )
 };

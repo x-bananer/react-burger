@@ -1,6 +1,7 @@
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
 export const addIngredient = (ingredient) => ({
     type: ADD_INGREDIENT,
@@ -15,4 +16,8 @@ export const removeIngredient = (uid) => ({
 export const moveIngredient = (dragIndex, hoverIndex) => ({
     type: MOVE_INGREDIENT,
     payload: { dragIndex, hoverIndex }
+});
+
+export const clearConstructor = () => ({
+    type: CLEAR_CONSTRUCTOR,
 });

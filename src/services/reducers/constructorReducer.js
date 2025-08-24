@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ADD_INGREDIENT, REMOVE_INGREDIENT, MOVE_INGREDIENT } from '../actions/constructor.js';
+import { ADD_INGREDIENT, REMOVE_INGREDIENT, MOVE_INGREDIENT, CLEAR_CONSTRUCTOR } from '../actions/constructor.js';
 
 const initialState = {
     items: []
@@ -46,7 +46,13 @@ export const constructorReducer = (state = initialState, action) => {
                 ...state,
                 items: bun ? [bun, ...updatedFillings] : updatedFillings
             };
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return {
+                ...state,
+                items: [],
             }
+        }
         default: {
             return state;
         }

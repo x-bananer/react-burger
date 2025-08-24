@@ -1,4 +1,8 @@
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR } from '../actions/ingredients';
+import {
+    GET_INGREDIENTS_REQUEST,
+    GET_INGREDIENTS_SUCCESS,
+    GET_INGREDIENTS_ERROR
+} from '../actions/ingredients';
 
 const initialState = {
     items: [],
@@ -20,7 +24,6 @@ export const ingredientsReducer = (state = initialState, action) => {
                 ...state,
                 items: action.payload,
                 isLoading: false,
-                isError: false,
             };
         }
         case GET_INGREDIENTS_ERROR: {

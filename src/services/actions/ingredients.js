@@ -6,12 +6,13 @@ export const getIngredients = () => {
     return async (dispatch) => {
         dispatch({ type: GET_INGREDIENTS_REQUEST });
         try {
-            const API_BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
-            const res = await fetch(API_BASE_URL);
+            const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+            const res = await fetch(API_URL);
 
             if (!res.ok) {
                 throw new Error(res);
             }
+            
             const data = await res.json();
             dispatch({
                 type: GET_INGREDIENTS_SUCCESS,

@@ -75,4 +75,13 @@ export default BurgerIngredientsSection;
 BurgerIngredientsSection.propTypes = {
     extraClass: PropTypes.string,
     title: PropTypes.string.isRequired,
+    ingredients: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
+            price: PropTypes.number.isRequired,
+            image: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };
