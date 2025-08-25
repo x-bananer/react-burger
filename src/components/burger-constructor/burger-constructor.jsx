@@ -14,7 +14,7 @@ import { createOrder, clearOrder } from '../../services/actions/order.js';
 
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ className }) => {
+const BurgerConstructor = ({ className = "" }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const dispatch = useDispatch();
@@ -133,8 +133,4 @@ export default BurgerConstructor;
 
 BurgerConstructor.propTypes = {
     className: PropTypes.string
-};
-
-BurgerConstructor.defaultProps = {
-    className: ''
 };

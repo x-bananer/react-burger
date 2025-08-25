@@ -5,7 +5,7 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 
 import styles from './burger-ingredients-card.module.css';
 
-const BurgerIngredientsCard = ({ ingredient, onClick, count }) => {
+const BurgerIngredientsCard = ({ ingredient, onClick, count = 0 }) => {
     const [{ isDragging }, dragRef] = useDrag({
         type: 'ingredient',
         item: ingredient,
@@ -48,8 +48,4 @@ BurgerIngredientsCard.propTypes = {
     }).isRequired,
     onClick: PropTypes.func.isRequired,
     count: PropTypes.number
-};
-
-BurgerIngredientsCard.defaultProps = {
-    count: 0
 };
