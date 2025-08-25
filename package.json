@@ -11,11 +11,18 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.2",
+    "@redux-devtools/extension": "^3.3.0",
+    "@reduxjs/toolkit": "^2.8.2",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.14.2",
     "core-js": "^3.44.0",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

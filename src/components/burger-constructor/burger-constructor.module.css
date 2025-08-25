@@ -48,3 +48,12 @@
     margin-left: 48px;
     margin-right: 16px;
 }
+
+.burger-constructor__stub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    opacity: 0.3;
+}

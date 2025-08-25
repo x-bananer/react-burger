@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import styles from '../modal/modal.module.css';
 
-import ModalOverlay from './modal-overlay/modal-overlay';
+import ModalOverlay from '../modal-overlay/modal-overlay.jsx';
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
