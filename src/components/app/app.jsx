@@ -9,25 +9,27 @@ import LoginPage from '../../pages/login/login.jsx';
 import RegisterPage from '../../pages/register/register.jsx';
 import ForgotPasswordPage from '../../pages/forgot-password/forgot-password.jsx';
 import ResetPasswordPage from '../../pages/reset-password/reset-password.jsx';
+import ProfilePage from '../../pages/profile/profile.jsx';
 import ErrorPage from '../../pages/error';
 
 const App = () => {
 	return (
-		<div className={styles.app}>
-			<AppHeader />
-			<main className={`${styles['app__content']} mt-10 mb-10`}>
-				<BrowserRouter>
+		<BrowserRouter>
+			<div className={styles.app}>
+				<AppHeader />
+				<main className={`${styles['app__content']} mt-10 mb-10`}>
 					<Routes>
 						<Route path='/' element={<HomePage />} />
-						<Route path='/login' element={<LoginPage />}></Route>
-						<Route path='/register' element={<RegisterPage />}></Route>
-						<Route path='/forgot-password' element={<ForgotPasswordPage />}></Route>
-						<Route path='/reset-password' element={<ResetPasswordPage />}></Route>
+						<Route path='/login' element={<LoginPage />} />
+						<Route path='/register' element={<RegisterPage />} />
+						<Route path='/forgot-password' element={<ForgotPasswordPage />} />
+						<Route path='/reset-password' element={<ResetPasswordPage />} />
 						<Route path='*' element={<ErrorPage />} />
+						<Route path='/profile' element={<ProfilePage />} />
 					</Routes>
-				</BrowserRouter>
-			</main>
-		</div>
+				</main>
+			</div>
+		</BrowserRouter>
 	)
 }
 

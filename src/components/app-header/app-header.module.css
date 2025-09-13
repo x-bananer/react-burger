@@ -20,16 +20,16 @@
     transform: translateX(-50%);
 }
 
-.app-header__button {
+.app-header__nav-link {
     display: flex;
     align-items: center;
     color: var(--text-inactive-color) !important;
 }
 
-.app-header__button--active {
+.app-header__nav-link--active {
     color: var(--text-primary-color) !important;
 }
 
-.app-header__button--active svg {
+.app-header__nav-link--active svg {
     fill: var(--text-primary-color);
 }
