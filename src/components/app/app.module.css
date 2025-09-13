@@ -34,9 +34,3 @@ p {
 	padding: 0 20px;
 	gap: 40px;
 }
-
-.app__content-item {
-	flex-shrink: 1;
-	flex-grow: 1;
-	width: 100%;
-}
