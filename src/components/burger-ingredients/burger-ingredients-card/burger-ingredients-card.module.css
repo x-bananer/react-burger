@@ -1,0 +1,29 @@
+
+.burger-ingredients-card {
+    position: relative;
+    cursor: pointer;
+    transition: scale 0.3s ease;
+}
+
+.burger-ingredients-card:hover {
+    scale: 1.1;
+}
+
+.burger-ingredients-card__image {
+    height: 120px;
+    object-fit: contain;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.burger-ingredients-card__title {
+    min-height: 48px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.burger-ingredients-card__sup-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
