@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails = ({ ingredient: propIngredient, isPage }) => {
@@ -48,6 +49,20 @@ const IngredientDetails = ({ ingredient: propIngredient, isPage }) => {
             </div>
         </div>
     );
+};
+
+
+IngredientDetails.propTypes = {
+    ingredient: PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        image_large: PropTypes.string,
+        calories: PropTypes.number,
+        proteins: PropTypes.number,
+        fat: PropTypes.number,
+        carbohydrates: PropTypes.number,
+    }),
+    isPage: PropTypes.bool,
 };
 
 export default IngredientDetails;
