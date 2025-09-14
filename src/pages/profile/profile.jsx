@@ -2,27 +2,57 @@ import styles from './profile.module.css';
 
 import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { NavLink, useOutlet } from 'react-router-dom';
+import { NavLink, useOutlet, useNavigate } from 'react-router-dom';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';;
+
+import { updateUser, logout } from '../../services/actions/auth.js';
 
 const ProfilePage = () => {
     const outlet = useOutlet();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const [name, setName] = useState('')
-    const onChangeName = (e) => {
-        setName(e.target.value)
+    const { user } = useSelector(state => state.auth);
+
+    const [form, setForm] = useState({
+        name: user?.name || '',
+        email: user?.email || '',
+        password: ''
+    });
+
+    const isUserDataChanged = user && (form.name !== user.name || form.email !== user.email || form.password !== '');
+
+    const onChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const onCancelChange = () => {
+        setForm({ name: user.name, email: user.email, password: '' });
     }
 
-    const [email, setEmail] = useState('')
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
+    const onSubmitUserUpdate = async (e) => {
+        e.preventDefault();
+        dispatch(updateUser(form));
+    };
 
-    const [password, setPassword] = useState('')
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
+    const onClickLogout = async () => {
+        try {
+            const res = await dispatch(logout());
+            if (res?.success) {
+                navigate('/login', { replace: true });
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        if (user) {
+            setForm({ name: user.name, email: user.email, password: '' });
+        }
+    }, [user]);
 
     return (
         <div className={styles['profile']}>
@@ -55,19 +85,9 @@ const ProfilePage = () => {
                                 </p>
                             )}
                         </NavLink>
-                        <NavLink to="/login"  className={styles['profile__nav-link']}>
-                            {({ isActive }) => (
-                                <p
-                                    className={
-                                        isActive
-                                            ? 'text text_type_main-medium'
-                                            : 'text text_type_main-medium text_color_inactive'
-                                    }
-                                >
-                                    Выход
-                                </p>
-                            )}
-                        </NavLink>
+                        <Button onClick={onClickLogout} htmlType="button" extraClass={styles['profile__nav-button']}>
+                            Выход
+                        </Button>
                     </div>
                     <p className={`${styles['profile__caption']} text text_type_main-default text_color_inactive`}>
                         В этом разделе вы можете изменить свои персональные данные
@@ -75,34 +95,49 @@ const ProfilePage = () => {
                 </div>
                 <div className={styles['profile__main']}>
                     {!outlet && (
-                        <>
+                        <form onSubmit={onSubmitUserUpdate}>
                             <Input
                                 extraClass="mb-6"
                                 type="text"
                                 placeholder="Имя"
-                                onChange={(e) => setName(e.target.value)}
-                                value={name}
+                                onChange={onChange}
+                                value={form.name}
                                 name="name"
                                 icon="EditIcon"
                             />
                             <EmailInput
                                 extraClass="mb-6"
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={onChange}
                                 placeholder="Логин"
-                                value={email}
+                                value={form.email}
                                 name="email"
                                 isIcon={true}
                             />
                             <PasswordInput
-                                onChange={(e) => setPassword(e.target.value)}
-                                value={password}
+                                onChange={onChange}
+                                value={form.password}
                                 name="password"
                                 icon="EditIcon"
                             />
-                        </>
+                            {isUserDataChanged && (
+                                <div className="mt-6">
+                                    <Button htmlType="submit" type="primary" size="medium">
+                                        Сохранить
+                                    </Button>
+                                    <Button
+                                        htmlType="button"
+                                        type="secondary"
+                                        size="medium"
+                                        onClick={onCancelChange}
+                                        extraClass="ml-2"
+                                    >
+                                        Отмена
+                                    </Button>
+                                </div>
+                            )}
+                        </form>
                     )}
                     {outlet}
-
                 </div>
             </div>
         </div>

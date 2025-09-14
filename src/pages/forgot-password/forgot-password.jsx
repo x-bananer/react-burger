@@ -1,14 +1,17 @@
 import styles from './forgot-password.module.css';
 
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { setCanResetPassword } from '../../services/actions/auth.js';
 
 const ForgotPasswordPage = () => {
     const API_FORGOT_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset';
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const onChangeEmail = (e) => {
@@ -35,6 +38,7 @@ const ForgotPasswordPage = () => {
 
             if (data.success) {
                 navigate('/reset-password');
+                dispatch(setCanResetPassword(true));
             } else {
                 console.error(data);
             }

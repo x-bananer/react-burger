@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { getUser } from '../../services/actions/user';
+import { getUser } from '../../services/actions/auth.js';
 import { getIngredients } from '../../services/actions/ingredients.js';
 
 const AppInitializer = () => {
@@ -9,7 +9,7 @@ const AppInitializer = () => {
     useEffect(() => {
         console.log('Методы при старте приложения')
         dispatch(getIngredients());
-        // dispatch(getUser());
+        dispatch(getUser());
     }, []);
 
     return null;

@@ -4,51 +4,29 @@ import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-de
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { register } from '../../services/actions/auth.js';
 
 const RegisterPage = () => {
-    const API_REGISTER_URL = 'https://norma.nomoreparties.space/api/auth/register';
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const [name, setName] = useState('')
-    const onChangeName = (e) => {
-        setName(e.target.value)
-    }
-
-    const [email, setEmail] = useState('')
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const [password, setPassword] = useState('')
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
+    const [form, setForm] = useState({ name: '', email: '', password: '' });
+    const onChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
 
     const onClickToLogin = () => {
         navigate('/login');
     };
 
-    const onClickRegister = async () => {
+    const onSubmitRegister = async (e) => {
+        e.preventDefault();
         try {
-            const res = await fetch(API_REGISTER_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                    name
-                })
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-                navigate('/');
-            } else {
-                console.error(data);
+            const res = await dispatch(register(form));
+            if (res?.success) {
+                navigate('/', { replace: true });
             }
         } catch (err) {
             console.error(err);
@@ -58,7 +36,7 @@ const RegisterPage = () => {
     return (
         <div className={styles['register']}>
             <div className={styles['register__container']}>
-                <div className={`${styles.register__form} mb-20`}>
+                <form className={`${styles.register__form} mb-20`} onSubmit={onSubmitRegister}>
                     <p className="text text_type_main-medium mb-6">
                         Регистрация
                     </p>
@@ -66,27 +44,27 @@ const RegisterPage = () => {
                         extraClass="mb-6"
                         type={'text'}
                         placeholder={'Имя'}
-                        onChange={onChangeName}
-                        value={name}
                         name={'name'}
+                        value={form.name}
+                        onChange={onChange}
                     />
                     <EmailInput
                         extraClass="mb-6"
-                        onChange={onChangeEmail}
-                        value={email}
                         name={'email'}
                         isIcon={false}
+                        value={form.email}
+                        onChange={onChange}
                     />
                     <PasswordInput
-                        onChange={onChangePassword}
-                        value={password}
                         name={'password'}
                         extraClass="mb-6"
+                        value={form.password}
+                        onChange={onChange}
                     />
-                    <Button htmlType="button" type="primary" size="medium" onClick={onClickRegister}>
+                    <Button type="primary" size="medium" htmlType="submit">
                         Зарегистрироваться
                     </Button>
-                </div>
+                </form>
                 <div className={styles['register__form']}>
                     <div>
                         <span className="text text_type_main-default text_color_inactive">

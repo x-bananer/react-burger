@@ -6,12 +6,14 @@ import { constructorReducer } from './reducers/constructorReducer';
 import { ingredientReducer } from './reducers/ingredientReducer';
 import { ingredientsReducer } from './reducers/ingredientsReducer';
 import { orderReducer } from './reducers/orderReducer';
+import { authReducer } from './reducers/authReducer';
 
 const rootReducer = combineReducers({
 	burderConstructor: constructorReducer,
 	ingredient: ingredientReducer,
 	ingredients: ingredientsReducer,
 	order: orderReducer,
+	auth: authReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(

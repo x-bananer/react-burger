@@ -2,13 +2,15 @@ import styles from './reset-password.module.css';
 
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ResetPasswordPage = () => {
     const API_RESET_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset/reset';
 
     const navigate = useNavigate();
+    const { canResetPassword } = useSelector(state => state.auth);
 
     const [token, setToken] = useState('')
     const onChangeToken = (e) => {
@@ -40,7 +42,7 @@ const ResetPasswordPage = () => {
             const data = await res.json();
 
             if (data.success) {
-               navigate('/login')
+                navigate('/login')
             } else {
                 console.error(data);
             }
@@ -48,6 +50,12 @@ const ResetPasswordPage = () => {
             console.error(err);
         }
     };
+
+    useEffect(() => {
+        if (!canResetPassword) {
+            navigate('/forgot-password', { replace: true });
+        }
+    }, [canResetPassword, navigate]);
 
     return (
         <div className={styles['reset-password']}>
