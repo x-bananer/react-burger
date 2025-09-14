@@ -7,7 +7,6 @@ const AppInitializer = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log('Методы при старте приложения')
         dispatch(getIngredients());
         dispatch(getUser());
     }, []);

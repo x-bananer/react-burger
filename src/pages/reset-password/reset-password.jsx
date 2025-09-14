@@ -12,31 +12,25 @@ const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const { canResetPassword } = useSelector(state => state.auth);
 
-    const [token, setToken] = useState('')
-    const onChangeToken = (e) => {
-        setToken(e.target.value)
-    }
-
-    const [password, setPassword] = useState('')
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
+    const [form, setForm] = useState({ token: '', password: ''});
+    const onChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
 
     const onClickToLogin = () => {
         navigate('/login');
     };
 
-    const onClickSavePassword = async () => {
+    const onSubmitResetPassword = async (e) => {
+        e.preventDefault();
+        
         try {
             const res = await fetch(API_RESET_PASSWORD_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    password,
-                    token
-                })
+                body: JSON.stringify(form)
             });
 
             const data = await res.json();
@@ -60,14 +54,14 @@ const ResetPasswordPage = () => {
     return (
         <div className={styles['reset-password']}>
             <div className={styles['reset-password__container']}>
-                <div className={`${styles['reset-password__form']} mb-20`}>
+                <form className={`${styles['reset-password__form']} mb-20`} onSubmit={onSubmitResetPassword}>
                     <p className="text text_type_main-medium mb-6">
                         Восстановление пароля
                     </p>
                     <PasswordInput
-                        onChange={onChangePassword}
+                        onChange={onChange}
                         placeholder={'Введите новый пароль'}
-                        value={password}
+                        value={form.password}
                         name={'password'}
                         extraClass="mb-6"
                     />
@@ -75,14 +69,14 @@ const ResetPasswordPage = () => {
                         extraClass="mb-6"
                         type={'text'}
                         placeholder={'Введите код из письма'}
-                        onChange={onChangeToken}
-                        value={token}
+                        onChange={onChange}
+                        value={form.token}
                         name={'token'}
                     />
-                    <Button htmlType="button" type="primary" size="medium" onClick={onClickSavePassword}>
+                    <Button htmlType="submit" type="primary" size="medium">
                         Сохранить
                     </Button>
-                </div>
+                </form>
                 <div className={styles['reset-password__form']}>
                     <div>
                         <span className="text text_type_main-default text_color_inactive">

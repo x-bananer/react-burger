@@ -13,25 +13,25 @@ const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState('');
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
+    const [form, setForm] = useState({ email: ''});
+    const onChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
     
     const onClickToLogin = () => {
         navigate('/login');
     };
 
-    const onClickResetPassword = async () => {
+    const onSubmitResetPassword = async (e) => {
+        e.preventDefault();
+
         try {
             const res = await fetch(API_FORGOT_PASSWORD_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    email
-                })
+                body: JSON.stringify(form)
             });
 
             const data = await res.json();
@@ -50,22 +50,22 @@ const ForgotPasswordPage = () => {
     return (
         <div className={styles['forgot-password']}>
             <div className={styles['forgot-password__container']}>
-                <div className={`${styles['forgot-password__form']} mb-20`}>
+                <form className={`${styles['forgot-password__form']} mb-20`} onSubmit={onSubmitResetPassword}>
                     <p className="text text_type_main-medium mb-6">
                         Восстановление пароля
                     </p>
                     <EmailInput
                         extraClass="mb-6"
                         placeholder="Укажите e-mail"
-                        onChange={onChangeEmail}
-                        value={email}
+                        onChange={onChange}
+                        value={form.email}
                         name={'email'}
                         isIcon={false}
                     />
-                    <Button htmlType="button" type="primary" size="medium" onClick={onClickResetPassword}>
+                    <Button htmlType="submit" type="primary" size="medium">
                         Восстановить
                     </Button>
-                </div>
+                </form>
                 <div className={styles['forgot-password__form']}>
                     <div>
                         <span className="text text_type_main-default text_color_inactive">
