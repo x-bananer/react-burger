@@ -1,6 +1,11 @@
+.profile {
+    width: 100%;
+}
+
 .profile__container {
     display: flex;
     padding-block: 90px;
+    width: 100%;
 }
 
 .profile__aside {
@@ -14,7 +19,7 @@
 }
 
 .profile__main {
-    flex: 0;
+    flex: 1;
 }
 
 .profile__nav-link {

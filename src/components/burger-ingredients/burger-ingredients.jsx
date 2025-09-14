@@ -7,11 +7,11 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsSection from './burger-ingredients-section/burger-ingredients-section.jsx';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients.js';
+import { useSelector } from 'react-redux';
+// import { getIngredients } from '../../services/actions/ingredients.js';
 
 const BurgerIngredients = ({ className }) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { items: ingredients, isLoading, isError } = useSelector(state => state.ingredients);
 
     const [activeTab, setActiveTab] = useState('Булки');
@@ -66,9 +66,9 @@ const BurgerIngredients = ({ className }) => {
         };
     }, []);
 
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getIngredients());
+    // }, []);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);

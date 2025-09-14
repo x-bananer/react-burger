@@ -6,12 +6,15 @@ import Modal from '../../modal/modal.jsx';
 import IngredientDetails from '../../ingredient-details/ingredient-details.jsx';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients-card.jsx';
 
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDetails, removeDetails } from '../../../services/actions/ingredient.js';
 
 const BurgerIngredientsSection = ({ extraClass, title, ingredients }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const { items: selectedIngredients = [] } = useSelector(state => state.burderConstructor);
 
@@ -36,12 +39,15 @@ const BurgerIngredientsSection = ({ extraClass, title, ingredients }) => {
 
     const handleIngredientClick = (ingredient) => {
         dispatch(addDetails(ingredient));
-        setIsModalVisible(true);
+        navigate(`/ingredients/${ingredient._id}`, {
+            state: { background: location }
+        });
     };
 
     const handleCloseModal = () => {
-        setIsModalVisible(false);
-        dispatch(removeDetails());
+        // setIsModalVisible(false);
+        // dispatch(removeDetails());
+        navigate(-1)
     };
 
     return (
