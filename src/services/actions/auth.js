@@ -17,7 +17,12 @@ import {
     LOGOUT_SUCCESS,
     LOGOUT_ERROR,
     AUTH_CHECKED,
-    SET_CAN_RESET_PASSWORD
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_ERROR,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_ERROR
 } from '../reducers/authReducer';
 
 const API_URL_LOGIN = 'https://norma.nomoreparties.space/api/auth/login';
@@ -25,6 +30,10 @@ const API_URL_REGISTER = 'https://norma.nomoreparties.space/api/auth/register';
 const API_URL_GET_USER = 'https://norma.nomoreparties.space/api/auth/user';
 const API_URL_UPDATE_USER = 'https://norma.nomoreparties.space/api/auth/user';
 const API_URL_LOGOUT = 'https://norma.nomoreparties.space/api/auth/logout';
+const API_FORGOT_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset';
+const API_RESET_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset/reset';
+
+
 
 export const login = (form) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
@@ -34,6 +43,10 @@ export const login = (form) => async (dispatch) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(form)
         });
+
+        if (!res.ok) {
+            throw new Error(res.status);
+        }
 
         if (res.success) {
             localStorage.setItem('stb.refreshToken', res.refreshToken);
@@ -164,7 +177,40 @@ export const logout = () => async (dispatch) => {
     }
 };
 
-export const setCanResetPassword = (value) => ({
-    type: SET_CAN_RESET_PASSWORD,
-    payload: value
-});
+export const forgotPassword = (form) => async (dispatch) => {
+    dispatch({ type: FORGOT_PASSWORD_REQUEST });
+    
+    try {
+        const res = await apiFetch(API_FORGOT_PASSWORD_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form)
+        });
+
+        dispatch({ type: FORGOT_PASSWORD_SUCCESS });
+
+        return res;
+    } catch (err) {
+        dispatch({ type: FORGOT_PASSWORD_ERROR });
+        return err;
+    }
+};
+
+export const resetPassword = (form) => async (dispatch) => {
+    dispatch({ type: RESET_PASSWORD_REQUEST });
+    try {
+
+        const res = await apiFetch(API_RESET_PASSWORD_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form)
+        });
+
+        dispatch({ type: RESET_PASSWORD_SUCCESS });
+
+        return res;
+    } catch (err) {
+        dispatch({ type: RESET_PASSWORD_ERROR });
+        return err;
+    }
+};

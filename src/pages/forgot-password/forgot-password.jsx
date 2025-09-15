@@ -5,19 +5,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { setCanResetPassword } from '../../services/actions/auth.js';
+import { forgotPassword } from '../../services/actions/auth.js';
 
 const ForgotPasswordPage = () => {
-    const API_FORGOT_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset';
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [form, setForm] = useState({ email: ''});
+    const [form, setForm] = useState({ email: '' });
     const onChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-    
+
     const onClickToLogin = () => {
         navigate('/login');
     };
@@ -26,21 +24,10 @@ const ForgotPasswordPage = () => {
         e.preventDefault();
 
         try {
-            const res = await fetch(API_FORGOT_PASSWORD_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(form)
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-                navigate('/reset-password');
-                dispatch(setCanResetPassword(true));
-            } else {
-                console.error(data);
+            const res = await dispatch(forgotPassword(form));
+            
+            if (res?.success) {
+                navigate('/reset-password', { replace: true });
             }
         } catch (err) {
             console.error(err);

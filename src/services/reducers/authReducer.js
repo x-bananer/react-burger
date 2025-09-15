@@ -20,7 +20,13 @@ export const LOGOUT_ERROR = 'LOGOUT_ERROR';
 
 export const AUTH_CHECKED = 'AUTH_CHECKED';
 
-export const SET_CAN_RESET_PASSWORD = 'SET_CAN_RESET_PASSWORD';
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_ERROR = 'FORGOT_PASSWORD_ERROR';
+
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
 
 const initialState = {
     user: null,
@@ -38,6 +44,8 @@ export const authReducer = (state = initialState, action) => {
         case GET_USER_REQUEST:
         case UPDATE_USER_REQUEST:
         case LOGOUT_REQUEST:
+        case FORGOT_PASSWORD_REQUEST:
+        case RESET_PASSWORD_REQUEST:
             return {
                 ...state,
                 isLoading: true,
@@ -47,6 +55,8 @@ export const authReducer = (state = initialState, action) => {
         case REGISTER_SUCCESS:
         case GET_USER_SUCCESS:
         case UPDATE_USER_SUCCESS:
+        // case FORGOT_PASSWORD_SUCCESS:
+        // case RESET_PASSWORD_SUCCESS:
             return {
                 ...state,
                 user: action.payload,
@@ -59,10 +69,22 @@ export const authReducer = (state = initialState, action) => {
         case GET_USER_ERROR:
         case UPDATE_USER_ERROR:
         case LOGOUT_ERROR:
+        case FORGOT_PASSWORD_ERROR:
+        case RESET_PASSWORD_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 isError: true
+            };
+        case FORGOT_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                canResetPassword: true
+            };
+        case RESET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                canResetPassword: false
             };
         case LOGOUT_SUCCESS:
             return {
@@ -76,11 +98,6 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuthChecked: true
-            };
-        case SET_CAN_RESET_PASSWORD:
-            return {
-                ...state,
-                canResetPassword: action.payload
             };
         default:
             return state;

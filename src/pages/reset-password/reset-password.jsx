@@ -4,15 +4,17 @@ import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burg
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { resetPassword } from '../../services/actions/auth.js';
 
 const ResetPasswordPage = () => {
-    const API_RESET_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset/reset';
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const { canResetPassword } = useSelector(state => state.auth);
 
-    const [form, setForm] = useState({ token: '', password: ''});
+    const [form, setForm] = useState({ token: '', password: '' });
     const onChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -23,22 +25,12 @@ const ResetPasswordPage = () => {
 
     const onSubmitResetPassword = async (e) => {
         e.preventDefault();
-        
+
         try {
-            const res = await fetch(API_RESET_PASSWORD_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(form)
-            });
+            const res = await dispatch(resetPassword(form));
 
-            const data = await res.json();
-
-            if (data.success) {
-                navigate('/login')
-            } else {
-                console.error(data);
+            if (res?.success) {
+                navigate('/login', { replace: true });
             }
         } catch (err) {
             console.error(err);
