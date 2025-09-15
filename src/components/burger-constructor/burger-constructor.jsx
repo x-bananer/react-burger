@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { useNavigate } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -16,9 +18,12 @@ import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = ({ className = "" }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const { isLoggedIn } = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { items: selectedIngredients = [] } = useSelector(state => state.burderConstructor);
+    const { isLoading } = useSelector(state => state.order);
 
     const [, dropRef] = useDrop({
         accept: 'ingredient',
@@ -38,14 +43,25 @@ const BurgerConstructor = ({ className = "" }) => {
     }, [bun, fillings]);
 
 
-    const handleClickOrder = () => {
+    const onClickOrder = async () => {
         const selectedIngredientIds = [
             bun?._id,
             ...fillings.map(i => i._id),
             bun?._id,
         ];
-        dispatch(createOrder(selectedIngredientIds));
-        setIsModalVisible(true);
+
+        if (!isLoggedIn) {
+            navigate('/login');
+        }
+
+        try {
+            const res = await dispatch(createOrder(selectedIngredientIds));
+            if (res?.success) {
+                setIsModalVisible(true);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const handleCloseModal = () => {
@@ -57,7 +73,7 @@ const BurgerConstructor = ({ className = "" }) => {
     return (
         <>
             <div ref={dropRef} className={`${styles['burger-constructor']} ${className}`}>
-                {selectedIngredients.length === 0 && ( 
+                {selectedIngredients.length === 0 && (
                     <p className={`${styles['burger-constructor__stub']} text text_type_main-medium mt-10 text_color_inactive`}>
                         Перенесите сюда любимые ингредиенты,<br />чтобы собрать бургер для заказа
                     </p>
@@ -113,9 +129,10 @@ const BurgerConstructor = ({ className = "" }) => {
                             type="primary"
                             size="large"
                             htmlType="button"
-                            onClick={handleClickOrder}
+                            onClick={onClickOrder}
+                            disabled={isLoading}
                         >
-                            Оформить заказ
+                            {isLoading ? 'Оформляем заказ...' : 'Оформить заказ'}
                         </Button>
                     </div>
                 }

@@ -1,0 +1,52 @@
+.profile {
+    width: 100%;
+}
+
+.profile__container {
+    display: flex;
+    padding-block: 90px;
+    width: 100%;
+}
+
+.profile__aside {
+    max-width: 320px;
+    width: 100%;
+    flex: 1;
+}
+
+.profile__nav {
+    width: 100%;
+}
+
+.profile__main {
+    flex: 1;
+}
+
+.profile__nav-link {
+    text-decoration: none;
+    height: 64px;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.profile__nav-button {
+    padding: 0;
+    height: 64px;
+    color: #8585AD;
+    font-size: 24px;
+    justify-content: flex-start;
+    background: transparent;
+    font-weight: bold;
+}
+
+.profile__nav-button:hover {
+    box-shadow: none;
+    opacity: 1;
+    background-color: transparent;
+    filter: none;
+}
+
+.profile__caption {
+    opacity: 0.4;
+}

@@ -9,6 +9,10 @@
     align-items: center;
 }
 
+.ingredient-details__header--center {
+    justify-content: center;
+}
+
 .ingredient-details__grid {
     display: flex;
     flex-wrap: wrap;
