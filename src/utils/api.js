@@ -1,4 +1,7 @@
-export const apiFetch = async (url, options = {}) => {
+export const apiFetch = async (endpoint, options = {}) => {
+    const API_BASE_URL = 'https://norma.nomoreparties.space/api';
+    const url = `${API_BASE_URL}${endpoint}`;
+
     const accessToken = document.cookie
         .split('; ')
         .find((row) => row.startsWith('stb.accessToken='))
@@ -28,7 +31,7 @@ export const apiFetch = async (url, options = {}) => {
             if (!refreshToken) {
                 throw err;
             }
-            const tokenResponse = await fetch('https://norma.nomoreparties.space/api/auth/token', {
+            const tokenResponse = await fetch(`${API_BASE_URL}/auth/token`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: refreshToken })

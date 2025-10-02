@@ -4,7 +4,8 @@ import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-de
 
 import { NavLink, useOutlet, useNavigate } from 'react-router-dom';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useForm } from '../../hooks/useForm';
 import { useSelector, useDispatch } from 'react-redux';;
 
 import { updateUser, logout } from '../../services/actions/auth.js';
@@ -16,7 +17,7 @@ const ProfilePage = () => {
 
     const { user } = useSelector(state => state.auth);
 
-    const [form, setForm] = useState({
+    const [form, onChange, setForm] = useForm({
         name: user?.name || '',
         email: user?.email || '',
         password: ''
@@ -24,9 +25,6 @@ const ProfilePage = () => {
 
     const isUserDataChanged = user && (form.name !== user.name || form.email !== user.email || form.password !== '');
 
-    const onChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
 
     const onCancelChange = () => {
         setForm({ name: user.name, email: user.email, password: '' });
@@ -104,20 +102,23 @@ const ProfilePage = () => {
                                 value={form.name}
                                 name="name"
                                 icon="EditIcon"
+                                autoComplete="name"
                             />
                             <EmailInput
                                 extraClass="mb-6"
+                                autoComplete="email"
                                 onChange={onChange}
                                 placeholder="Логин"
                                 value={form.email}
                                 name="email"
-                                isIcon={true}
+                                isIcon
                             />
                             <PasswordInput
                                 onChange={onChange}
                                 value={form.password}
                                 name="password"
                                 icon="EditIcon"
+                                autoComplete="current-password"
                             />
                             {isUserDataChanged && (
                                 <div className="mt-6">

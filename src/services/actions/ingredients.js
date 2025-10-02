@@ -8,7 +8,7 @@ export const getIngredients = () => {
     return async (dispatch) => {
         dispatch({ type: GET_INGREDIENTS_REQUEST });
         try {
-            const data = await apiFetch('https://norma.nomoreparties.space/api/ingredients');
+            const data = await apiFetch('/ingredients');
             dispatch({
                 type: GET_INGREDIENTS_SUCCESS,
                 payload: data.data

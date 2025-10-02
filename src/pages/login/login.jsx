@@ -2,7 +2,7 @@ import styles from './login.module.css';
 
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { useState } from 'react';
+import { useForm } from '../../hooks/useForm';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -13,10 +13,7 @@ const LoginPage = () => {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const [form, setForm] = useState({ email: '', password: '' });
-    const onChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const [form, onChange] = useForm({ email: '', password: '' });
 
     const onClickToRegister = () => {
         navigate('/register');
@@ -35,6 +32,7 @@ const LoginPage = () => {
                 navigate(from, { replace: true });
             }
         } catch (err) {
+            
             console.error(err);
         }
     };
@@ -48,6 +46,7 @@ const LoginPage = () => {
                     </p>
                     <EmailInput
                         extraClass="mb-6"
+                        autoComplete="email"
                         onChange={onChange}
                         value={form.email}
                         name={'email'}
@@ -58,6 +57,7 @@ const LoginPage = () => {
                         value={form.password}
                         name={'password'}
                         extraClass="mb-6"
+                        autoComplete="current-password"
                     />
                     <Button htmlType="submit" type="primary" size="medium">
                         Войти

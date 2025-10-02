@@ -83,7 +83,7 @@ const BurgerConstructor = ({ className = "" }) => {
                     <ConstructorElement
                         extraClass={`mb-4 ${styles['burger-constructor__item']} ${styles['burger-constructor__item--offset']}`}
                         type="top"
-                        isLocked={true}
+                        isLocked
                         text={`${bun.name} (верх)`}
                         price={bun.price}
                         thumbnail={bun.image}
@@ -110,7 +110,7 @@ const BurgerConstructor = ({ className = "" }) => {
                     <ConstructorElement
                         extraClass={`${styles['burger-constructor__item']} mt-4 ${styles['burger-constructor__item--offset']}`}
                         type="bottom"
-                        isLocked={true}
+                        isLocked
                         text={`${bun.name} (низ)`}
                         price={bun.price}
                         thumbnail={bun.image}

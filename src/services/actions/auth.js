@@ -25,15 +25,13 @@ import {
     RESET_PASSWORD_ERROR
 } from '../reducers/authReducer';
 
-const API_URL_LOGIN = 'https://norma.nomoreparties.space/api/auth/login';
-const API_URL_REGISTER = 'https://norma.nomoreparties.space/api/auth/register';
-const API_URL_GET_USER = 'https://norma.nomoreparties.space/api/auth/user';
-const API_URL_UPDATE_USER = 'https://norma.nomoreparties.space/api/auth/user';
-const API_URL_LOGOUT = 'https://norma.nomoreparties.space/api/auth/logout';
-const API_FORGOT_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset';
-const API_RESET_PASSWORD_URL = 'https://norma.nomoreparties.space/api/password-reset/reset';
-
-
+const API_URL_LOGIN = '/auth/login';
+const API_URL_REGISTER = '/auth/register';
+const API_URL_GET_USER = '/auth/user';
+const API_URL_UPDATE_USER = '/auth/user';
+const API_URL_LOGOUT = '/auth/logout';
+const API_FORGOT_PASSWORD_URL = '/password-reset';
+const API_RESET_PASSWORD_URL = '/password-reset/reset';
 
 export const login = (form) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
@@ -43,10 +41,6 @@ export const login = (form) => async (dispatch) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(form)
         });
-
-        if (!res.ok) {
-            throw new Error(res.status);
-        }
 
         if (res.success) {
             localStorage.setItem('stb.refreshToken', res.refreshToken);

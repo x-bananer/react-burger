@@ -2,11 +2,12 @@ import styles from './reset-password.module.css';
 
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { resetPassword } from '../../services/actions/auth.js';
+import { useForm } from '../../hooks/useForm';
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
@@ -14,10 +15,7 @@ const ResetPasswordPage = () => {
 
     const { canResetPassword } = useSelector(state => state.auth);
 
-    const [form, setForm] = useState({ token: '', password: '' });
-    const onChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const [form, onChange] = useForm({ token: '', password: '' });
 
     const onClickToLogin = () => {
         navigate('/login');

@@ -30,10 +30,10 @@ const App = () => {
 				<Routes location={state?.background || location}>
 					<Route path='/' element={<HomePage />} />
 
-					<Route path='/login' element={<ProtectedRoute onlyUnAuth={true} element={<LoginPage />} />} />
-					<Route path='/register' element={<ProtectedRoute onlyUnAuth={true} element={<RegisterPage />} />} />
-					<Route path='/forgot-password' element={<ProtectedRoute onlyUnAuth={true} element={<ForgotPasswordPage />} />} />
-					<Route path='/reset-password' element={<ProtectedRoute onlyUnAuth={true} element={<ResetPasswordPage />} />} />
+					<Route path='/login' element={<ProtectedRoute onlyUnAuth element={<LoginPage />} />} />
+					<Route path='/register' element={<ProtectedRoute onlyUnAuth element={<RegisterPage />} />} />
+					<Route path='/forgot-password' element={<ProtectedRoute onlyUnAuth element={<ForgotPasswordPage />} />} />
+					<Route path='/reset-password' element={<ProtectedRoute onlyUnAuth element={<ResetPasswordPage />} />} />
 
 					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />}>
 						<Route path="orders" element={<OrdersPage />} />

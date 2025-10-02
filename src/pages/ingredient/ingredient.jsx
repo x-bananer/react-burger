@@ -14,7 +14,7 @@ const IngredientPage = () => {
 
     return (
         <div className={`${styles['ingredient']} mt-20`}>
-            <IngredientDetails ingredient={ingredient} isPage={true} />
+            <IngredientDetails ingredient={ingredient} isPage />
         </div>
     );
 };

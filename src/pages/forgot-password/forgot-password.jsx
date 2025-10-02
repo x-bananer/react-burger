@@ -1,9 +1,9 @@
 import styles from './forgot-password.module.css';
 
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
 import { forgotPassword } from '../../services/actions/auth.js';
 
@@ -11,10 +11,7 @@ const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [form, setForm] = useState({ email: '' });
-    const onChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const [form, onChange] = useForm({ email: '' });
 
     const onClickToLogin = () => {
         navigate('/login');
@@ -44,6 +41,7 @@ const ForgotPasswordPage = () => {
                     <EmailInput
                         extraClass="mb-6"
                         placeholder="Укажите e-mail"
+                        autoComplete="email"
                         onChange={onChange}
                         value={form.email}
                         name={'email'}

@@ -5,7 +5,7 @@ export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 
-const API_URL_ORDER_CREATE = 'https://norma.nomoreparties.space/api/orders';
+const API_URL_ORDER_CREATE = '/orders';
 
 export const createOrder = (ingredients) => {
     return async (dispatch) => {

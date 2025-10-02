@@ -2,7 +2,7 @@ import styles from './register.module.css';
 
 import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { useState } from 'react';
+import { useForm } from '../../hooks/useForm';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -12,10 +12,7 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [form, setForm] = useState({ name: '', email: '', password: '' });
-    const onChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const [form, onChange] = useForm({ name: '', email: '', password: '' });
 
     const onClickToLogin = () => {
         navigate('/login');
@@ -45,11 +42,13 @@ const RegisterPage = () => {
                         type={'text'}
                         placeholder={'Имя'}
                         name={'name'}
+                        autoComplete="given-name"
                         value={form.name}
                         onChange={onChange}
                     />
                     <EmailInput
                         extraClass="mb-6"
+                        autoComplete="email"
                         name={'email'}
                         isIcon={false}
                         value={form.email}
@@ -58,6 +57,7 @@ const RegisterPage = () => {
                     <PasswordInput
                         name={'password'}
                         extraClass="mb-6"
+                        autoComplete="new-password"
                         value={form.password}
                         onChange={onChange}
                     />
