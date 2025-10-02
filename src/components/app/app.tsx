@@ -1,24 +1,26 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
+import type { FC } from 'react';
+
 import styles from './app.module.css';
 
-import AppHeader from '../app-header/app-header.js';
-import IngredientDetails from '../ingredient-details/ingredient-details.js';
-import Modal from '../modal/modal.js';
+import AppHeader from '../app-header/app-header';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
 import HomePage from '../../pages/home/home';
-import LoginPage from '../../pages/login/login.js';
-import RegisterPage from '../../pages/register/register.js';
-import ForgotPasswordPage from '../../pages/forgot-password/forgot-password.js';
-import ResetPasswordPage from '../../pages/reset-password/reset-password.js';
-import ProfilePage from '../../pages/profile/profile.js';
-import ErrorPage from '../../pages/error.js';
-import IngredientPage from '../../pages/ingredient/ingredient.js';
-import OrdersPage from '../../pages/profile/orders/orders.js'
+import LoginPage from '../../pages/login/login';
+import RegisterPage from '../../pages/register/register';
+import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password/reset-password';
+import ProfilePage from '../../pages/profile/profile';
+import ErrorPage from '../../pages/error';
+import IngredientPage from '../../pages/ingredient/ingredient';
+import OrdersPage from '../../pages/profile/orders/orders';
 
-import ProtectedRoute from '../../routes/protected-route.js';
+import ProtectedRoute from '../../routes/protected-route';
 
-const App = () => {
+const App: FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const state = location.state;

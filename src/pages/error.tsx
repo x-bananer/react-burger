@@ -1,9 +1,5 @@
 const ErrorPage = () => {
-    return (
-        <p>
-            404. Страница не найдена
-        </p>
-    );
-}
+	return <p>404. Страница не найдена</p>;
+};
 
 export default ErrorPage;

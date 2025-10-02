@@ -1,12 +1,12 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { composeWithDevTools } from '@redux-devtools/extension';
-import {thunk} from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "@redux-devtools/extension";
+import { thunk } from "redux-thunk";
 
-import { constructorReducer } from './reducers/constructorReducer';
-import { ingredientReducer } from './reducers/ingredientReducer';
-import { ingredientsReducer } from './reducers/ingredientsReducer';
-import { orderReducer } from './reducers/orderReducer';
-import { authReducer } from './reducers/authReducer';
+import { constructorReducer } from "./reducers/constructorReducer";
+import { ingredientReducer } from "./reducers/ingredientReducer";
+import { ingredientsReducer } from "./reducers/ingredientsReducer";
+import { orderReducer } from "./reducers/orderReducer";
+import { authReducer } from "./reducers/authReducer";
 
 const rootReducer = combineReducers({
 	burderConstructor: constructorReducer,
@@ -17,8 +17,9 @@ const rootReducer = combineReducers({
 });
 
 // @ts-ignore
-const store = createStore(rootReducer, composeWithDevTools(
-	applyMiddleware(thunk)
-));
+const store = createStore(
+	rootReducer,
+	composeWithDevTools(applyMiddleware(thunk))
+);
 
 export default store;

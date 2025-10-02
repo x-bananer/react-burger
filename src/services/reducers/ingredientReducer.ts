@@ -1,15 +1,18 @@
 import { ADD_DETAILS, REMOVE_DETAILS } from "../actions/ingredient";
 
 interface IngredientAction {
-  type: string;
-  payload?: any;
+	type: string;
+	payload?: any;
 }
 
 const initialState = {
 	details: null,
 };
 
-export const ingredientReducer = (state = initialState, action: IngredientAction) => {
+export const ingredientReducer = (
+	state = initialState,
+	action: IngredientAction
+) => {
 	switch (action.type) {
 		case ADD_DETAILS: {
 			return {

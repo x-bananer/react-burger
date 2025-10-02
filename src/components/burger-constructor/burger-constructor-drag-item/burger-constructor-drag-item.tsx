@@ -1,5 +1,6 @@
 import styles from "./burger-constructor-drag-item.module.css";
 
+import type { FC } from "react";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {
@@ -11,31 +12,25 @@ import {
 	moveIngredient,
 	removeIngredient,
 } from "../../../services/actions/constructor";
+import type { TIngredient } from "../../../services/actions/constructor";
 
-interface BurgerConstructorDragItemProps {
-	ingredient: {
-		uid: string;
-		_id: string;
-		name: string;
-		price: number;
-		image: string;
-		type: string;
-	};
+type TBurgerConstructorDragItemProps = {
+	ingredient: TIngredient;
 	index: number;
 	extraClass?: string;
-}
+};
 
 interface DragItem {
 	uid: string;
 	index: number;
 }
 
-const BurgerConstructorDragItem: React.FC<BurgerConstructorDragItemProps> = ({
+const BurgerConstructorDragItem: FC<TBurgerConstructorDragItemProps> = ({
 	extraClass,
 	ingredient,
 	index,
 }) => {
-	const ref = useRef(null);
+	const ref = useRef<HTMLDivElement>(null);
 	const dispatch = useDispatch();
 
 	const [, drop] = useDrop<DragItem>({
@@ -62,7 +57,7 @@ const BurgerConstructorDragItem: React.FC<BurgerConstructorDragItemProps> = ({
 	drag(drop(ref));
 
 	const onDeleteIngredient = () => {
-		dispatch(removeIngredient(ingredient.uid));
+		dispatch(removeIngredient(ingredient.uid!));
 	};
 
 	return (

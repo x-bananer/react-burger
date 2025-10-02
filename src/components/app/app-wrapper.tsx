@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import store from '../../services/store';
 
-import AppInitializer from './app-initializer.tsx';
+import AppInitializer from './app-initializer';
 import App from './app'
 
 const AppWrapper = () => (
