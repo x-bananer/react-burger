@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
+import type { RootState } from '../services/types';
 
 interface ProtectedRouteProps {
 	element: ReactNode;
@@ -12,7 +13,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 	onlyUnAuth = false,
 }) => {
 	const { isLoggedIn, isAuthChecked } = useSelector(
-		(state: any) => state.auth
+		(state: RootState) => state.auth
 	);
 	const location = useLocation();
 

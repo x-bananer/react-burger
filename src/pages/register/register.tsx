@@ -11,12 +11,13 @@ import {
 import { useForm } from "../../hooks/useForm.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../services/types";
 
 import { register } from "../../services/actions/auth.js";
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const [form, onChange] = useForm({ name: "", email: "", password: "" });
 

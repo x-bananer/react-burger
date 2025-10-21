@@ -1,18 +1,15 @@
-import { ADD_DETAILS, REMOVE_DETAILS } from "../actions/ingredient";
+import { ADD_DETAILS, REMOVE_DETAILS } from "../constants";
+import type { TIngredientState } from "../types/ingredient";
+import type { TIngredientActions } from '../actions';
 
-interface IngredientAction {
-	type: string;
-	payload?: any;
-}
-
-const initialState = {
+const initialState: TIngredientState = {
 	details: null,
 };
 
 export const ingredientReducer = (
-	state = initialState,
-	action: IngredientAction
-) => {
+	state: TIngredientState = initialState,
+	action: TIngredientActions
+): TIngredientState => {
 	switch (action.type) {
 		case ADD_DETAILS: {
 			return {

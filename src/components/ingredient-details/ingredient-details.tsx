@@ -3,18 +3,10 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
 
-interface Ingredient {
-	_id: string;
-	name: string;
-	image_large: string;
-	calories: number;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-}
+import type { TIngredient } from "../../services/types/ingredient";
 
 interface IngredientDetailsProps {
-	ingredient?: Ingredient;
+	ingredient?: TIngredient;
 	isPage?: boolean;
 }
 

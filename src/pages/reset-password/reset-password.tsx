@@ -10,14 +10,15 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { resetPassword } from "../../services/actions/auth.js";
+import { resetPassword } from "../../services/actions/auth";
 import { useForm } from "../../hooks/useForm.js";
+import type { AppDispatch, RootState } from '../../services/types';
 
 const ResetPasswordPage = () => {
 	const navigate = useNavigate();
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
-	const { canResetPassword } = useSelector((state: any) => state.auth);
+	const { canResetPassword } = useSelector((state: RootState) => state.auth);
 
 	const [form, onChange] = useForm({ token: "", password: "" });
 

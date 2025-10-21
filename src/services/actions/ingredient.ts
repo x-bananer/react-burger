@@ -1,28 +1,22 @@
-export const ADD_DETAILS = "ADD_DETAILS";
-export const REMOVE_DETAILS = "REMOVE_DETAILS";
+import type { TIngredient } from "../types/ingredient";
+import { ADD_DETAILS, REMOVE_DETAILS } from "../constants";
 
-export type TIngredient = {
-	_id: string;
-	uid?: string;
-	name: string;
-	type: string;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-	calories: number;
-	price: number;
-	image: string;
-	image_mobile: string;
-	image_large: string;
-};
+export interface IAddDetailsAction {
+	readonly type: typeof ADD_DETAILS;
+	readonly payload: TIngredient;
+}
 
-export const addDetails = (
-	ingredient: TIngredient
-): { type: typeof ADD_DETAILS; payload: TIngredient } => ({
+export interface IRemoveDetailsAction {
+	readonly type: typeof REMOVE_DETAILS;
+}
+
+export type TIngredientActions = IAddDetailsAction | IRemoveDetailsAction;
+
+export const addDetails = (ingredient: TIngredient): IAddDetailsAction => ({
 	type: ADD_DETAILS,
 	payload: ingredient,
 });
 
-export const removeDetails = (): { type: typeof REMOVE_DETAILS } => ({
+export const removeDetails = (): IRemoveDetailsAction => ({
 	type: REMOVE_DETAILS,
 });

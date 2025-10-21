@@ -1,28 +1,42 @@
 import { v4 as uuidv4 } from "uuid";
+import type { TIngredient } from "../types/ingredient";
+import type { TConstructorIngredient } from "../types/constructor";
 
-export const ADD_INGREDIENT = "ADD_INGREDIENT";
-export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
-export const MOVE_INGREDIENT = "MOVE_INGREDIENT";
-export const CLEAR_CONSTRUCTOR = "CLEAR_CONSTRUCTOR";
+import {
+	ADD_INGREDIENT,
+	REMOVE_INGREDIENT,
+	MOVE_INGREDIENT,
+	CLEAR_CONSTRUCTOR,
+} from "../constants";
 
-export type TIngredient = {
-	_id: string;
-	uid?: string;
-	name: string;
-	type: string;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-	calories: number;
-	price: number;
-	image: string;
-	image_mobile: string;
-	image_large: string;
-};
+export interface IAddIngredientAction {
+	readonly type: typeof ADD_INGREDIENT;
+	readonly payload: TConstructorIngredient;
+}
+
+export interface IMoveIngredientAction {
+	readonly type: typeof MOVE_INGREDIENT;
+	readonly payload: { dragIndex: number; hoverIndex: number };
+}
+
+export interface IRemoveIngredientAction {
+	readonly type: typeof REMOVE_INGREDIENT;
+	readonly payload: string;
+}
+
+export interface IClearConstructorAction {
+	readonly type: typeof CLEAR_CONSTRUCTOR;
+}
+
+export type TConstructorActions =
+	| IAddIngredientAction
+	| IMoveIngredientAction
+	| IRemoveIngredientAction
+	| IClearConstructorAction;
 
 export const addIngredient = (
 	ingredient: TIngredient
-): { type: typeof ADD_INGREDIENT; payload: TIngredient } => ({
+): IAddIngredientAction => ({
 	type: ADD_INGREDIENT,
 	payload: {
 		...ingredient,
@@ -30,9 +44,7 @@ export const addIngredient = (
 	},
 });
 
-export const removeIngredient = (
-	uid: string
-): { type: typeof REMOVE_INGREDIENT; payload: string } => ({
+export const removeIngredient = (uid: string): IRemoveIngredientAction => ({
 	type: REMOVE_INGREDIENT,
 	payload: uid,
 });
@@ -40,14 +52,11 @@ export const removeIngredient = (
 export const moveIngredient = (
 	dragIndex: number,
 	hoverIndex: number
-): {
-	type: typeof MOVE_INGREDIENT;
-	payload: { dragIndex: number; hoverIndex: number };
-} => ({
+): IMoveIngredientAction => ({
 	type: MOVE_INGREDIENT,
 	payload: { dragIndex, hoverIndex },
 });
 
-export const clearConstructor = (): { type: typeof CLEAR_CONSTRUCTOR } => ({
+export const clearConstructor = (): IClearConstructorAction => ({
 	type: CLEAR_CONSTRUCTOR,
 });

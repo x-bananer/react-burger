@@ -2,24 +2,20 @@ import {
 	GET_INGREDIENTS_REQUEST,
 	GET_INGREDIENTS_SUCCESS,
 	GET_INGREDIENTS_ERROR,
-} from "../actions/ingredients";
+} from "../constants";
+import type { TIngredientsState } from "../types/ingredients";
+import type { TIngredientsActions } from '../actions';
 
-interface IngredientsState {
-	items: any[];
-	isLoading: boolean;
-	isError: boolean;
-}
-
-const initialState: IngredientsState = {
+const initialState: TIngredientsState = {
 	items: [],
 	isLoading: false,
 	isError: false,
 };
 
 export const ingredientsReducer = (
-	state: IngredientsState = initialState,
-	action: { type: string; payload?: any }
-): IngredientsState => {
+	state: TIngredientsState = initialState,
+	action: TIngredientsActions
+): TIngredientsState => {
 	switch (action.type) {
 		case GET_INGREDIENTS_REQUEST: {
 			return {

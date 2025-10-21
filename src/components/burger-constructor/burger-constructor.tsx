@@ -18,8 +18,9 @@ import {
 	addIngredient,
 	clearConstructor,
 } from "../../services/actions/constructor";
-import type { TIngredient } from "../../services/actions/constructor";
+import type { TIngredient } from "../../services/types/ingredient";
 import { createOrder, clearOrder } from "../../services/actions/order";
+import type { RootState } from "../../services/types";
 
 import styles from "./burger-constructor.module.css";
 
@@ -29,14 +30,14 @@ interface BurgerConstructorProps {
 
 const BurgerConstructor: FC<BurgerConstructorProps> = ({ className = "" }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const { isLoggedIn } = useSelector((state: any) => state.auth);
+	const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
 	const dispatch: any = useDispatch();
 	const navigate = useNavigate();
 	const { items: selectedIngredients = [] } = useSelector(
-		(state: any): { items: TIngredient[] } => state.burderConstructor
+		(state: RootState) => state.burderConstructor
 	);
-	const { isLoading } = useSelector((state: any) => state.order);
+	const { isLoading } = useSelector((state: RootState) => state.order);
 
 	const [, dropRef] = useDrop<TIngredient>({
 		accept: "ingredient",

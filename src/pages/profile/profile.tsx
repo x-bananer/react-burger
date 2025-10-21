@@ -12,15 +12,16 @@ import { NavLink, useOutlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm.js";
 import { useSelector, useDispatch } from "react-redux";
+import type { AppDispatch, RootState } from '../../services/types';
 
 import { updateUser, logout } from "../../services/actions/auth.js";
 
 const ProfilePage = () => {
 	const outlet = useOutlet();
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
-	const { user } = useSelector((state: any) => state.auth);
+	const { user } = useSelector((state: RootState) => state.auth);
 
 	const [form, onChange, setForm] = useForm({
 		name: user?.name || "",
@@ -35,6 +36,7 @@ const ProfilePage = () => {
 			form.password !== "");
 
 	const onCancelChange = () => {
+	if (!user) return;
 		setForm({ name: user.name, email: user.email, password: "" });
 	};
 

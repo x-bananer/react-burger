@@ -3,17 +3,11 @@ import styles from "../order-details/order-details.module.css";
 
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
-import type { TOrder } from "../../services/reducers/orderReducer";
+import type { RootState } from "../../services/types";
 
 const OrderDetails: FC = () => {
 	const { order, isLoading, isError } = useSelector(
-		(state: {
-			order: {
-				order: TOrder | null;
-				isLoading: boolean;
-				isError: boolean;
-			};
-		}) => state.order
+		(state: RootState) => state.order
 	);
 
 	return (

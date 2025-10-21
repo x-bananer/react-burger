@@ -7,13 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../services/types";
 import { useForm } from "../../hooks/useForm";
 
 import { forgotPassword } from "../../services/actions/auth";
 
 const ForgotPasswordPage = () => {
 	const navigate = useNavigate();
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const [form, onChange] = useForm({ email: "" });
 

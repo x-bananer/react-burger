@@ -7,6 +7,7 @@ import BurgerIngredientsSection from "./burger-ingredients-section/burger-ingred
 import type { FC } from "react";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import type { RootState } from "../../services/types";
 
 interface BurgerIngredientsProps {
 	className?: string;
@@ -17,7 +18,7 @@ const BurgerIngredients: FC<BurgerIngredientsProps> = ({ className }) => {
 		items: ingredients,
 		isLoading,
 		isError,
-	} = useSelector((state: any) => state.ingredients);
+	} = useSelector((state: RootState) => state.ingredients);
 
 	const [activeTab, setActiveTab] = useState("Булки");
 

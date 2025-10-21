@@ -10,13 +10,14 @@ import {
 import { useForm } from "../../hooks/useForm.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../services/types";
 
 import { login } from "../../services/actions/auth.js";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const [form, onChange] = useForm({ email: "", password: "" });
 
@@ -33,7 +34,7 @@ const LoginPage = () => {
 	): Promise<void> => {
 		e.preventDefault();
 		try {
-			const res = await dispatch(login(form));
+			const res = await dispatch(login(form.email, form.password));
 			if (res?.success) {
 				const from = location.state?.from?.pathname || "/";
 				navigate(from, { replace: true });

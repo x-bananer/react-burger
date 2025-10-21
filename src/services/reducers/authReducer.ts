@@ -1,43 +1,32 @@
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_ERROR = "LOGIN_ERROR";
+import type { TAuthState } from '../types/auth';
+import type { TAuthActions } from '../actions';
 
-export const REGISTER_REQUEST = "REGISTER_REQUEST";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_ERROR = "REGISTER_ERROR";
+import {
+	LOGIN_REQUEST,
+	LOGIN_SUCCESS,
+	LOGIN_ERROR,
+	REGISTER_REQUEST,
+	REGISTER_SUCCESS,
+	REGISTER_ERROR,
+	GET_USER_REQUEST,
+	GET_USER_SUCCESS,
+	GET_USER_ERROR,
+	UPDATE_USER_REQUEST,
+	UPDATE_USER_SUCCESS,
+	UPDATE_USER_ERROR,
+	LOGOUT_REQUEST,
+	LOGOUT_SUCCESS,
+	LOGOUT_ERROR,
+	AUTH_CHECKED,
+	FORGOT_PASSWORD_REQUEST,
+	FORGOT_PASSWORD_SUCCESS,
+	FORGOT_PASSWORD_ERROR,
+	RESET_PASSWORD_REQUEST,
+	RESET_PASSWORD_SUCCESS,
+	RESET_PASSWORD_ERROR,
+} from "../constants";
 
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const GET_USER_ERROR = "GET_USER_ERROR";
-
-export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
-export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
-export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
-
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_ERROR = "LOGOUT_ERROR";
-
-export const AUTH_CHECKED = "AUTH_CHECKED";
-
-export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
-export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
-export const FORGOT_PASSWORD_ERROR = "FORGOT_PASSWORD_ERROR";
-
-export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
-export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
-export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
-
-export type AuthState = {
-	user: any | null;
-	isLoggedIn: boolean;
-	isLoading: boolean;
-	isError: boolean;
-	isAuthChecked: boolean;
-	canResetPassword: boolean;
-};
-
-const initialState: AuthState = {
+const initialState: TAuthState = {
 	user: null,
 	isLoggedIn: false,
 	isLoading: false,
@@ -47,9 +36,9 @@ const initialState: AuthState = {
 };
 
 export const authReducer = (
-	state: AuthState = initialState,
-	action: { type: string; payload?: any }
-): AuthState => {
+	state: TAuthState = initialState,
+	action: TAuthActions
+): TAuthState => {
 	switch (action.type) {
 		case LOGIN_REQUEST:
 		case REGISTER_REQUEST:

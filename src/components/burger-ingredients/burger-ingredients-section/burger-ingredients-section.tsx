@@ -7,8 +7,9 @@ import BurgerIngredientsCard from "../burger-ingredients-card/burger-ingredients
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addDetails } from "../../../services/actions/ingredient.js";
-import type { TIngredient } from "../../../services/actions/constructor";
+import type { AppDispatch, RootState } from "../../../services/types";
+import { addDetails } from "../../../services/actions/ingredient";
+import type { TIngredient } from "../../../services/types/ingredient";
 import type { FC } from "react";
 
 interface BurgerIngredientsSectionProps {
@@ -22,12 +23,12 @@ const BurgerIngredientsSection: FC<BurgerIngredientsSectionProps> = ({
 	title,
 	ingredients,
 }) => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const { items: selectedIngredients = [] } = useSelector(
-		(state: any) => state.burderConstructor
+		(state: RootState) => state.burderConstructor
 	);
 
 	const counts = useMemo(() => {
@@ -48,7 +49,7 @@ const BurgerIngredientsSection: FC<BurgerIngredientsSectionProps> = ({
 
 	const [isModalVisible] = useState(false);
 	const { details: selectedIngredient } = useSelector(
-		(state: any) => state.ingredient
+		(state: RootState) => state.ingredient
 	);
 
 	const handleIngredientClick = (ingredient: TIngredient) => {
@@ -81,7 +82,7 @@ const BurgerIngredientsSection: FC<BurgerIngredientsSectionProps> = ({
 					))}
 				</ul>
 			</section>
-			{isModalVisible && (
+			{isModalVisible && selectedIngredient && (
 				<Modal onClose={handleCloseModal}>
 					<IngredientDetails ingredient={selectedIngredient} />
 				</Modal>

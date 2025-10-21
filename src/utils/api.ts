@@ -2,7 +2,7 @@ export const apiFetch = async <T>(
 	endpoint: string,
 	options: RequestInit = {}
 ): Promise<T> => {
-	const API_BASE_URL = "https://norma.nomoreparties.space/api";
+	const API_BASE_URL = "https://norma.education-services.ru/api";
 	const url = `${API_BASE_URL}${endpoint}`;
 
 	const accessToken = document.cookie

@@ -9,7 +9,7 @@ import {
 
 import styles from "./burger-ingredients-card.module.css";
 
-import type { TIngredient } from "../../../services/actions/constructor";
+import type { TIngredient } from "../../../services/types/ingredient";
 
 type TBurgerIngredientsCardProps = {
 	ingredient: TIngredient;

@@ -1,22 +1,10 @@
 import { apiFetch } from "../../utils/api.ts";
-
-export type TAuthResponse = {
-	success: boolean;
-	user?: { email: string; name: string };
-	refreshToken: string;
-	accessToken: string;
-};
-
-export type TUserResponse = {
-	success: boolean;
-	user?: { email: string; name: string };
-};
-
-export type TDefaultResponse = {
-	success: boolean;
-	message?: string;
-};
-
+import type { AppDispatch } from "../types";
+import type {
+	TDefaultResponse,
+	TUserResponse,
+	TAuthResponse,
+} from "../types/auth.ts";
 import {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS,
@@ -40,7 +28,7 @@ import {
 	RESET_PASSWORD_REQUEST,
 	RESET_PASSWORD_SUCCESS,
 	RESET_PASSWORD_ERROR,
-} from "../reducers/authReducer.ts";
+} from "../constants";
 
 const API_URL_LOGIN = "/auth/login";
 const API_URL_REGISTER = "/auth/register";
@@ -50,21 +38,127 @@ const API_URL_LOGOUT = "/auth/logout";
 const API_FORGOT_PASSWORD_URL = "/password-reset";
 const API_RESET_PASSWORD_URL = "/password-reset/reset";
 
+export interface ILoginRequestAction {
+	readonly type: typeof LOGIN_REQUEST;
+}
+export interface ILoginSuccessAction {
+	readonly type: typeof LOGIN_SUCCESS;
+	readonly payload: { email: string; name: string };
+}
+export interface ILoginErrorAction {
+	readonly type: typeof LOGIN_ERROR;
+}
+
+export interface IRegisterRequestAction {
+	readonly type: typeof REGISTER_REQUEST;
+}
+export interface IRegisterSuccessAction {
+	readonly type: typeof REGISTER_SUCCESS;
+	readonly payload: { email: string; name: string };
+}
+export interface IRegisterErrorAction {
+	readonly type: typeof REGISTER_ERROR;
+}
+
+export interface IGetUserRequestAction {
+	readonly type: typeof GET_USER_REQUEST;
+}
+export interface IGetUserSuccessAction {
+	readonly type: typeof GET_USER_SUCCESS;
+	readonly payload: { email: string; name: string };
+}
+export interface IGetUserErrorAction {
+	readonly type: typeof GET_USER_ERROR;
+}
+
+export interface IUpdateUserRequestAction {
+	readonly type: typeof UPDATE_USER_REQUEST;
+}
+export interface IUpdateUserSuccessAction {
+	readonly type: typeof UPDATE_USER_SUCCESS;
+	readonly payload: { email: string; name: string };
+}
+export interface IUpdateUserErrorAction {
+	readonly type: typeof UPDATE_USER_ERROR;
+}
+
+export interface ILogoutRequestAction {
+	readonly type: typeof LOGOUT_REQUEST;
+}
+export interface ILogoutSuccessAction {
+	readonly type: typeof LOGOUT_SUCCESS;
+}
+export interface ILogoutErrorAction {
+	readonly type: typeof LOGOUT_ERROR;
+}
+
+export interface IForgotPasswordRequestAction {
+	readonly type: typeof FORGOT_PASSWORD_REQUEST;
+}
+export interface IForgotPasswordSuccessAction {
+	readonly type: typeof FORGOT_PASSWORD_SUCCESS;
+}
+export interface IForgotPasswordErrorAction {
+	readonly type: typeof FORGOT_PASSWORD_ERROR;
+}
+
+export interface IResetPasswordRequestAction {
+	readonly type: typeof RESET_PASSWORD_REQUEST;
+}
+export interface IResetPasswordSuccessAction {
+	readonly type: typeof RESET_PASSWORD_SUCCESS;
+}
+export interface IResetPasswordErrorAction {
+	readonly type: typeof RESET_PASSWORD_ERROR;
+}
+
+export interface IAuthCheckedAction {
+	readonly type: typeof AUTH_CHECKED;
+}
+
+export type TAuthActions =
+	| ILoginRequestAction
+	| ILoginSuccessAction
+	| ILoginErrorAction
+	| IRegisterRequestAction
+	| IRegisterSuccessAction
+	| IRegisterErrorAction
+	| IGetUserRequestAction
+	| IGetUserSuccessAction
+	| IGetUserErrorAction
+	| IUpdateUserRequestAction
+	| IUpdateUserSuccessAction
+	| IUpdateUserErrorAction
+	| ILogoutRequestAction
+	| ILogoutSuccessAction
+	| ILogoutErrorAction
+	| IForgotPasswordRequestAction
+	| IForgotPasswordSuccessAction
+	| IForgotPasswordErrorAction
+	| IResetPasswordRequestAction
+	| IResetPasswordSuccessAction
+	| IResetPasswordErrorAction
+	| IAuthCheckedAction;
+
 export const login =
-	(form: Record<string, any>) =>
-	async (dispatch: any): Promise<any> => {
+	(email: string, password: string) =>
+	async (dispatch: AppDispatch): Promise<TAuthResponse> => {
 		dispatch({ type: LOGIN_REQUEST });
 		try {
 			const res = await apiFetch<TAuthResponse>(API_URL_LOGIN, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(form),
+				body: JSON.stringify({ email, password }),
 			});
 
 			if (res.success) {
 				localStorage.setItem("stb.refreshToken", res.refreshToken);
 				document.cookie = `stb.accessToken=${res.accessToken}; path=/`;
-				dispatch({ type: LOGIN_SUCCESS, payload: res.user });
+				if (res.user) {
+					dispatch({ type: LOGIN_SUCCESS, payload: res.user });
+				} else {
+					dispatch({ type: LOGIN_ERROR });
+				}
 			} else {
 				dispatch({ type: LOGIN_ERROR });
 			}
@@ -72,13 +166,13 @@ export const login =
 		} catch (err) {
 			console.error(err);
 			dispatch({ type: LOGIN_ERROR });
-			return err;
+			throw err;
 		}
 	};
 
 export const register =
 	(email: string, password: string, name: string) =>
-	async (dispatch: any): Promise<any> => {
+	async (dispatch: AppDispatch): Promise<TAuthResponse> => {
 		dispatch({ type: REGISTER_REQUEST });
 		try {
 			const res = await apiFetch<TAuthResponse>(API_URL_REGISTER, {
@@ -87,7 +181,7 @@ export const register =
 				body: JSON.stringify({ email, password, name }),
 			});
 
-			if (res.success) {
+			if (res.user) {
 				localStorage.setItem("stb.refreshToken", res.refreshToken);
 				document.cookie = `stb.accessToken=${res.accessToken}; path=/`;
 				dispatch({ type: REGISTER_SUCCESS, payload: res.user });
@@ -98,13 +192,13 @@ export const register =
 		} catch (err) {
 			console.error(err);
 			dispatch({ type: REGISTER_ERROR });
-			return err;
+			throw err;
 		}
 	};
 
 export const getUser =
 	() =>
-	async (dispatch: any): Promise<any> => {
+	async (dispatch: AppDispatch): Promise<void> => {
 		const accessToken = document.cookie
 			.split("; ")
 			.find((row) => row.startsWith("stb.accessToken="))
@@ -123,16 +217,16 @@ export const getUser =
 				headers: { "Content-Type": "application/json" },
 			});
 
-			if (res.success) {
+			if (res.user) {
 				dispatch({ type: GET_USER_SUCCESS, payload: res.user });
 			} else {
 				dispatch({ type: GET_USER_ERROR });
 			}
-			return res;
+			return;
 		} catch (err) {
 			console.error(err);
 			dispatch({ type: GET_USER_ERROR });
-			return err;
+			return;
 		} finally {
 			dispatch({ type: AUTH_CHECKED });
 		}
@@ -140,7 +234,7 @@ export const getUser =
 
 export const updateUser =
 	(form: Record<string, any>) =>
-	async (dispatch: any): Promise<any> => {
+	async (dispatch: AppDispatch): Promise<void> => {
 		const accessToken = document.cookie
 			.split("; ")
 			.find((row) => row.startsWith("stb.accessToken="))
@@ -158,22 +252,21 @@ export const updateUser =
 				body: JSON.stringify(form),
 			});
 
-			if (res.success) {
+			if (res.user) {
 				dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
 			} else {
 				dispatch({ type: UPDATE_USER_ERROR });
 			}
-			return res;
+			return;
 		} catch (err) {
 			console.error(err);
 			dispatch({ type: UPDATE_USER_ERROR });
-			return err;
+			return;
 		}
 	};
 
 export const logout =
-	() =>
-	async (dispatch: any): Promise<any> => {
+	(): AppThunk<Promise<TDefaultResponse>> => async (dispatch) => {
 		dispatch({ type: LOGOUT_REQUEST });
 
 		try {
@@ -197,13 +290,13 @@ export const logout =
 			return res;
 		} catch (err) {
 			dispatch({ type: LOGOUT_ERROR });
-			return err;
+			throw err;
 		}
 	};
 
 export const forgotPassword =
 	(form: Record<string, any>) =>
-	async (dispatch: any): Promise<any> => {
+	async (dispatch: AppDispatch): Promise<TDefaultResponse> => {
 		dispatch({ type: FORGOT_PASSWORD_REQUEST });
 
 		try {
@@ -221,13 +314,15 @@ export const forgotPassword =
 			return res;
 		} catch (err) {
 			dispatch({ type: FORGOT_PASSWORD_ERROR });
-			return err;
+			throw err;
 		}
 	};
 
+import type { AppThunk } from "../types";
+
 export const resetPassword =
-	(form: Record<string, any>) =>
-	async (dispatch: any): Promise<any> => {
+	(form: Record<string, any>): AppThunk<Promise<TDefaultResponse>> =>
+	async (dispatch) => {
 		dispatch({ type: RESET_PASSWORD_REQUEST });
 		try {
 			const res = await apiFetch<TDefaultResponse>(
@@ -244,6 +339,6 @@ export const resetPassword =
 			return res;
 		} catch (err) {
 			dispatch({ type: RESET_PASSWORD_ERROR });
-			return err;
+			throw err;
 		}
 	};

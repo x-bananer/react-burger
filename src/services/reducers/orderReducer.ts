@@ -1,57 +1,23 @@
-export type TOrder = {
-	_id: string;
-	number: number;
-	status: string;
-	price: number;
-	name: string;
-	ingredients: {
-		_id: string;
-		name: string;
-		type: string;
-		proteins: number;
-		fat: number;
-		carbohydrates: number;
-		calories: number;
-		price: number;
-		image: string;
-		image_mobile: string;
-		image_large: string;
-		__v?: number;
-		uid?: string;
-	}[];
-	owner: {
-		name: string;
-		email: string;
-		createdAt: string;
-		updatedAt: string;
-	};
-	createdAt: string;
-	updatedAt: string;
-};
+import type { TOrderState } from "../types/order";
+import type { TOrderActions } from '../actions';
 
 import {
 	CREATE_ORDER_REQUEST,
 	CREATE_ORDER_SUCCESS,
 	CREATE_ORDER_ERROR,
-	CLEAR_ORDER,
-} from "../actions/order.ts";
+	CLEAR_ORDER
+} from "../constants";
 
-interface OrderState {
-	order: TOrder | null;
-	isLoading: boolean;
-	isError: boolean;
-}
-
-const initialState: OrderState = {
+const initialState: TOrderState = {
 	order: null,
 	isLoading: false,
 	isError: false,
 };
 
 export const orderReducer = (
-	state: OrderState = initialState,
-	action: { type: string; payload?: any }
-): OrderState => {
+	state: TOrderState = initialState,
+	action: TOrderActions
+): TOrderState => {
 	switch (action.type) {
 		case CREATE_ORDER_REQUEST: {
 			return {

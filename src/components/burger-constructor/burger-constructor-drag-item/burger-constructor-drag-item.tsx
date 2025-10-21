@@ -8,11 +8,12 @@ import {
 	ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../../services/types";
 import {
 	moveIngredient,
 	removeIngredient,
 } from "../../../services/actions/constructor";
-import type { TIngredient } from "../../../services/actions/constructor";
+import type { TIngredient } from "../../../services/types/ingredient";
 
 type TBurgerConstructorDragItemProps = {
 	ingredient: TIngredient;
@@ -31,7 +32,7 @@ const BurgerConstructorDragItem: FC<TBurgerConstructorDragItemProps> = ({
 	index,
 }) => {
 	const ref = useRef<HTMLDivElement>(null);
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const [, drop] = useDrop<DragItem>({
 		accept: "filling",
