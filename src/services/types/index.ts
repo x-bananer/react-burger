@@ -9,14 +9,16 @@ import type {
 	TConstructorActions,
 	TIngredientActions,
 	TIngredientsActions,
+	TWSActions,
 } from "../actions";
 
-type TApplicationActions =
+export type TApplicationActions =
 	| TAuthActions
 	| TOrderActions
 	| TConstructorActions
 	| TIngredientActions
-    | TIngredientsActions;
+    | TIngredientsActions
+	| TWSActions;
 
 export type AppThunk<TReturn = void> = ThunkAction<
   TReturn,
