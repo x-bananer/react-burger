@@ -17,6 +17,9 @@ import ProfilePage from '../../pages/profile/profile';
 import ErrorPage from '../../pages/error';
 import IngredientPage from '../../pages/ingredient/ingredient';
 import OrdersPage from '../../pages/profile/orders/orders';
+import OrderPage from '../../pages/profile/orders/order/order';
+import FeedPage from '../../pages/feed/feed';
+import FeedDetailPage from '../../pages/feed/feed-detail/feed-detail';
 
 import ProtectedRoute from '../../routes/protected-route';
 
@@ -39,9 +42,15 @@ const App: FC = () => {
 
 					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />}>
 						<Route path="orders" element={<OrdersPage />} />
+						<Route path="orders/:number" element={<OrderPage />} />
 					</Route>
 
 					<Route path='/ingredients/:id' element={<IngredientPage />} />
+
+					<Route path='/feed' element={<FeedPage />} />
+					<Route path='/feed/:number' element={<FeedDetailPage />} />
+					
+
 					<Route path='*' element={<ErrorPage />} />
 				</Routes>
 

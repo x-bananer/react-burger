@@ -8,6 +8,9 @@ import {
 } from "../constants";
 
 import type { TWS } from "../types/ws";
+import type { AppDispatch } from "../types";
+
+const API_WS_URL_ORDERS_ALL = "/orders";
 
 export interface IWSConnectionStartAction {
 	type: typeof WS_CONNECTION_START;
@@ -44,3 +47,31 @@ export type TWSActions =
 	| IWSGetMessageAction
 	| IWSSendMessageAction;
 
+
+export const wsConnectionStart = (url: string) => ({
+	type: WS_CONNECTION_START,
+	payload: url
+});
+
+export const wsConnectionSuccess = () => ({
+	type: WS_CONNECTION_SUCCESS
+});
+
+export const wsConnectionError = (event: Event) => ({
+	type: WS_CONNECTION_ERROR,
+	payload: event
+});
+
+export const wsConnectionClosed = () => ({
+	type: WS_CONNECTION_CLOSED
+});
+
+export const wsGetMessage = (data: TWS) => ({
+	type: WS_GET_MESSAGE,
+	payload: data
+});
+
+export const wsSendMessage = (message: unknown) => ({
+	type: WS_SEND_MESSAGE,
+	payload: message
+});
