@@ -1,0 +1,34 @@
+.feed-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.feed-stat__row {
+    display: flex;
+    gap: 36px;
+}
+
+.feed-stat__row > * {
+    flex: 1;
+}
+
+.feed-stat__columns {
+	display: flex;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+
+.feed-stat__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.feed-stat__item {
+	font-size: 18px;
+	color: #00cccc;
+}

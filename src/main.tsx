@@ -1,12 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-// import App from "./components/app/app.jsx";
-// import { Provider } from "react-redux";
-// import store from './services/store.js';
-import AppWrapper from "./components/app/app-wrapper.jsx";
+import AppWrapper from "./components/app/app-wrapper";
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root") as HTMLElement).render(
 	<StrictMode>
 		<AppWrapper />
-  	</StrictMode>
+	</StrictMode>
 );

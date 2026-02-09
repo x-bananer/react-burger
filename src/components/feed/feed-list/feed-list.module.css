@@ -1,0 +1,9 @@
+.feed-list__scroll-wrap {
+    overflow: hidden;
+    height: calc(100dvh - 290px);
+}
+
+.feed-list__scroll {
+    overflow: auto;
+    height: 100%;
+}
